@@ -1,0 +1,94 @@
+{
+    "sourceFile": "PlayerController.cs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 19,
+            "patches": [
+                {
+                    "date": 1625694929407,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1625695059242,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,10 @@\n using UnityEngine;\n \n public class PlayerController : MonoBehaviour\n {\n+    Transform trans;\n+\n     // Start is called before the first frame update\n     void Start()\n     {\n         \n@@ -12,9 +14,11 @@\n \n     // Update is called once per frame\n     void Update()\n     {\n-        \n+        if (Input.GetMouseButtonDown(0)) {\n+            trans.transform.position = Input.mousePosition;\n+        }\n     }\n \n     \n }\n"
+                },
+                {
+                    "date": 1625695104030,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,8 @@\n using UnityEngine;\n \n public class PlayerController : MonoBehaviour\n {\n-    Transform trans;\n \n     // Start is called before the first frame update\n     void Start()\n     {\n@@ -15,9 +14,9 @@\n     // Update is called once per frame\n     void Update()\n     {\n         if (Input.GetMouseButtonDown(0)) {\n-            trans.transform.position = Input.mousePosition;\n+            transform.position = Input.mousePosition;\n         }\n     }\n \n     \n"
+                },
+                {
+                    "date": 1625695147283,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,8 +14,9 @@\n     // Update is called once per frame\n     void Update()\n     {\n         if (Input.GetMouseButtonDown(0)) {\n+            Camera.main.\n             transform.position = Input.mousePosition;\n         }\n     }\n \n"
+                },
+                {
+                    "date": 1625695202759,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,10 +14,9 @@\n     // Update is called once per frame\n     void Update()\n     {\n         if (Input.GetMouseButtonDown(0)) {\n-            Camera.main.\n-            transform.position = Input.mousePosition;\n+            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);;\n         }\n     }\n \n     \n"
+                },
+                {
+                    "date": 1625695218488,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     // Update is called once per frame\n     void Update()\n     {\n         if (Input.GetMouseButtonDown(0)) {\n-            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);;\n+            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);\n         }\n     }\n \n     \n"
+                },
+                {
+                    "date": 1625695247412,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,11 @@\n     // Update is called once per frame\n     void Update()\n     {\n         if (Input.GetMouseButtonDown(0)) {\n-            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);\n+            Vector3 mousePos = Input.mousePosition;\n+            mousePos.z = Camera.main.nearClipPlane;\n+            transform.position = Camera.main.ScreenToWorldPoint(mousePos);\n         }\n     }\n \n     \n"
+                },
+                {
+                    "date": 1625695463017,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,13 +13,9 @@\n \n     // Update is called once per frame\n     void Update()\n     {\n-        if (Input.GetMouseButtonDown(0)) {\n-            Vector3 mousePos = Input.mousePosition;\n-            mousePos.z = Camera.main.nearClipPlane;\n-            transform.position = Camera.main.ScreenToWorldPoint(mousePos);\n-        }\n+        \n     }\n \n     \n }\n"
+                },
+                {
+                    "date": 1625695571896,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,8 +4,10 @@\n \n public class PlayerController : MonoBehaviour\n {\n \n+    public GameObject target;\n+\n     // Start is called before the first frame update\n     void Start()\n     {\n         \n"
+                },
+                {
+                    "date": 1625695614790,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,15 +9,15 @@\n \n     // Start is called before the first frame update\n     void Start()\n     {\n-        \n+        target = GameObject.Find(\"target\");\n     }\n \n     // Update is called once per frame\n     void Update()\n     {\n-        \n+        transform.position = target.transform.position;\n     }\n \n     \n }\n"
+                },
+                {
+                    "date": 1625695831645,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,20 +4,27 @@\n \n public class PlayerController : MonoBehaviour\n {\n \n+    Vector3 targetPosition;\n+\n+    int speed = 1;\n+\n     public GameObject target;\n \n     // Start is called before the first frame update\n     void Start()\n     {\n+        targetPosition = transform.position;\n         target = GameObject.Find(\"target\");\n     }\n \n     // Update is called once per frame\n     void Update()\n     {\n-        transform.position = target.transform.position;\n+        Vector3 deltaPosition = target.transform.position - transform.position;\n+\n+        transform.position += deltaPosition / 10;\n     }\n \n     \n }\n"
+                },
+                {
+                    "date": 1625695851725,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n     void Update()\n     {\n         Vector3 deltaPosition = target.transform.position - transform.position;\n \n-        transform.position += deltaPosition / 10;\n+        transform.position += deltaPosition / 100;\n     }\n \n     \n }\n"
+                },
+                {
+                    "date": 1625695934023,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,11 +20,11 @@\n \n     // Update is called once per frame\n     void Update()\n     {\n-        Vector3 deltaPosition = target.transform.position - transform.position;\n+        //Vector3 deltaPosition = target.transform.position - transform.position;\n \n-        transform.position += deltaPosition / 100;\n+        //transform.position += deltaPosition / 100;\n     }\n \n     \n }\n"
+                },
+                {
+                    "date": 1625695946310,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n \n     // Update is called once per frame\n     void Update()\n     {\n-        //Vector3 deltaPosition = target.transform.position - transform.position;\n+        Vector3 deltaPosition = target.transform.position - transform.position;\n \n         //transform.position += deltaPosition / 100;\n     }\n \n"
+                },
+                {
+                    "date": 1625695969565,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n     void Update()\n     {\n         Vector3 deltaPosition = target.transform.position - transform.position;\n \n-        //transform.position += deltaPosition / 100;\n+        transform.position += deltaPosition / 100;\n     }\n \n     \n }\n"
+                },
+                {
+                    "date": 1625696030059,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     // Start is called before the first frame update\n     void Start()\n     {\n         targetPosition = transform.position;\n-        target = GameObject.Find(\"target\");\n+        target = GameObject.Find(\"PlayerTarget\");\n     }\n \n     // Update is called once per frame\n     void Update()\n"
+                },
+                {
+                    "date": 1625696078567,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n     void Update()\n     {\n         Vector3 deltaPosition = target.transform.position - transform.position;\n \n-        transform.position += deltaPosition / 100;\n+        transform.position += deltaPosition - 3;\n     }\n \n     \n }\n"
+                },
+                {
+                    "date": 1625696110306,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n {\n \n     Vector3 targetPosition;\n \n-    int speed = 1;\n+    int speed = 10;\n \n     public GameObject target;\n \n     // Start is called before the first frame update\n@@ -22,9 +22,9 @@\n     void Update()\n     {\n         Vector3 deltaPosition = target.transform.position - transform.position;\n \n-        transform.position += deltaPosition - 3;\n+        transform.position += deltaPosition / speed;\n     }\n \n     \n }\n"
+                },
+                {
+                    "date": 1625696120525,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n {\n \n     Vector3 targetPosition;\n \n-    int speed = 10;\n+    int speed = 55;\n \n     public GameObject target;\n \n     // Start is called before the first frame update\n"
+                },
+                {
+                    "date": 1625696135455,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n {\n \n     Vector3 targetPosition;\n \n-    int speed = 55;\n+    int speed = 22;\n \n     public GameObject target;\n \n     // Start is called before the first frame update\n"
+                }
+            ],
+            "date": 1625694929407,
+            "name": "Commit-0",
+            "content": "using System.Collections;\nusing System.Collections.Generic;\nusing UnityEngine;\n\npublic class PlayerController : MonoBehaviour\n{\n    // Start is called before the first frame update\n    void Start()\n    {\n        \n    }\n\n    // Update is called once per frame\n    void Update()\n    {\n        \n    }\n\n    \n}\n"
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "sourceFile": "PlayerTargetController.cs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1625695307485,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1625695331477,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,17 @@\n-MonoBehaviour\n\\ No newline at end of file\n+using System.Collections;\n+using System.Collections.Generic;\n+using UnityEngine;\n+\n+public class PlayerController : MonoBehaviour\n+{\n+\n+    void Update()\n+    {\n+        if (Input.GetMouseButtonDown(0)) {\n+            Vector3 mousePos = Input.mousePosition;\n+            mousePos.z = Camera.main.nearClipPlane;\n+            transform.position = Camera.main.ScreenToWorldPoint(mousePos);\n+        }\n+    }\n+\n+}\n"
+                },
+                {
+                    "date": 1625695443852,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n using System.Collections;\n using System.Collections.Generic;\n using UnityEngine;\n \n-public class PlayerController : MonoBehaviour\n+public class PlayerTargetController : MonoBehaviour\n {\n \n     void Update()\n     {\n"
+                }
+            ],
+            "date": 1625695307485,
+            "name": "Commit-0",
+            "content": "MonoBehaviour"
+        }
+    ]
+}

@@ -1,0 +1,126 @@
+{
+    "sourceFile": "Assets/Scripts/MoveCommand.cs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 27,
+            "patches": [
+                {
+                    "date": 1626030032480,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1626030042886,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n using UnityEngine;\n \n-public class MoveCommand\n+public class MoveCommand : ICommand\n {\n     private GameObject targetWho;\n     private Vector3 targetWhere;\n \n"
+                },
+                {
+                    "date": 1626030092921,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n         targetWho = who;\n         targetWhere = where;\n     }\n \n-    public override void Execute() {\n+    public void Execute() {\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n         targetWho.transform.position = targetWhere;\n     }\n }\n"
+                },
+                {
+                    "date": 1626030928544,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+using System;\n using UnityEngine;\n \n public class MoveCommand : ICommand\n {\n@@ -10,9 +11,10 @@\n         targetWho = who;\n         targetWhere = where;\n     }\n \n-    public void Execute() {\n+    public void Execute(Delegate done) {\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n         targetWho.transform.position = targetWhere;\n+        done();\n     }\n }\n"
+                },
+                {
+                    "date": 1626030964697,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,10 +11,10 @@\n         targetWho = who;\n         targetWhere = where;\n     }\n \n-    public void Execute(Delegate done) {\n+    public void Execute(Delegate fn) {\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n         targetWho.transform.position = targetWhere;\n-        done();\n+        fn();\n     }\n }\n"
+                },
+                {
+                    "date": 1626031166204,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,10 +11,10 @@\n         targetWho = who;\n         targetWhere = where;\n     }\n \n-    public void Execute(Delegate fn) {\n+    public void Execute(Action<Boolean> OnComplete) {\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n         targetWho.transform.position = targetWhere;\n-        fn();\n+        OnComplete(true);\n     }\n }\n"
+                },
+                {
+                    "date": 1626031702397,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,10 +11,11 @@\n         targetWho = who;\n         targetWhere = where;\n     }\n \n-    public void Execute(Action<Boolean> OnComplete) {\n+    public void Execute(Action<null> OnComplete) {\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n         targetWho.transform.position = targetWhere;\n-        OnComplete(true);\n+        \n+        OnComplete();\n     }\n }\n"
+                },
+                {
+                    "date": 1626031790071,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n         targetWho = who;\n         targetWhere = where;\n     }\n \n-    public void Execute(Action<null> OnComplete) {\n+    public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n         targetWho.transform.position = targetWhere;\n         \n         OnComplete();\n"
+                },
+                {
+                    "date": 1626032135938,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n using System;\n+using System.Collections;\n using UnityEngine;\n \n public class MoveCommand : ICommand\n {\n@@ -14,8 +15,21 @@\n \n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n         targetWho.transform.position = targetWhere;\n+\n+        MoveFromTo(targetWho.transform, targetWho.transform.position, targetWhere, 1f);\n         \n         OnComplete();\n     }\n+\n+    IEnumerator MoveFromTo(Transform objectToMove, Vector3 a, Vector3 b, float speed) {\n+         float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n+         float t = 0;\n+         while (t <= 1.0f) {\n+             t += step; // Goes from 0 to 1, incrementing by step each time\n+             objectToMove.position = Vector3.Lerp(a, b, t); // Move objectToMove closer to b\n+             yield return new WaitForFixedUpdate();         // Leave the routine and return here in the next frame\n+         }\n+         objectToMove.position = b;\n+    }\n }\n"
+                },
+                {
+                    "date": 1626032150717,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     }\n \n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n-        targetWho.transform.position = targetWhere;\n+        //targetWho.transform.position = targetWhere;\n \n         MoveFromTo(targetWho.transform, targetWho.transform.position, targetWhere, 1f);\n         \n         OnComplete();\n"
+                },
+                {
+                    "date": 1626032244376,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n         //targetWho.transform.position = targetWhere;\n \n-        MoveFromTo(targetWho.transform, targetWho.transform.position, targetWhere, 1f);\n+        StartCoroutine(MoveFromTo(targetWho.transform, targetWho.transform.position, targetWhere, 1f));\n         \n         OnComplete();\n     }\n \n"
+                },
+                {
+                    "date": 1626032265784,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n using System;\n using System.Collections;\n+using System.Timers;\n using UnityEngine;\n \n public class MoveCommand : ICommand\n {\n"
+                },
+                {
+                    "date": 1626032323400,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n using System.Collections;\n using System.Timers;\n using UnityEngine;\n \n-public class MoveCommand : ICommand\n+public class MoveCommand : MonoBehaviour, ICommand\n {\n     private GameObject targetWho;\n     private Vector3 targetWhere;\n \n"
+                },
+                {
+                    "date": 1626032938981,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,12 +15,10 @@\n     }\n \n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n-        //targetWho.transform.position = targetWhere;\n+        targetWho.transform.position = targetWhere;\n \n-        StartCoroutine(MoveFromTo(targetWho.transform, targetWho.transform.position, targetWhere, 1f));\n-        \n         OnComplete();\n     }\n \n     IEnumerator MoveFromTo(Transform objectToMove, Vector3 a, Vector3 b, float speed) {\n"
+                },
+                {
+                    "date": 1626033204341,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,15 +20,6 @@\n \n         OnComplete();\n     }\n \n-    IEnumerator MoveFromTo(Transform objectToMove, Vector3 a, Vector3 b, float speed) {\n-         float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n-         float t = 0;\n-         while (t <= 1.0f) {\n-             t += step; // Goes from 0 to 1, incrementing by step each time\n-             objectToMove.position = Vector3.Lerp(a, b, t); // Move objectToMove closer to b\n-             yield return new WaitForFixedUpdate();         // Leave the routine and return here in the next frame\n-         }\n-         objectToMove.position = b;\n-    }\n+    \n }\n"
+                },
+                {
+                    "date": 1626033235039,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,11 +15,22 @@\n     }\n \n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n-        targetWho.transform.position = targetWhere;\n+        //targetWho.transform.position = targetWhere;\n \n+        \n+        \n         OnComplete();\n     }\n \n-    \n+    IEnumerator MoveFromTo(Transform objectToMove, Vector3 a, Vector3 b, float speed) {\n+         float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n+         float t = 0;\n+         while (t <= 1.0f) {\n+             t += step; // Goes from 0 to 1, incrementing by step each time\n+             objectToMove.position = Vector3.Lerp(a, b, t); // Move objectToMove closer to b\n+             yield return new WaitForFixedUpdate();         // Leave the routine and return here in the next frame\n+         }\n+         objectToMove.position = b;\n+    }\n }\n"
+                },
+                {
+                    "date": 1626033257943,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,15 +22,5 @@\n         \n         OnComplete();\n     }\n \n-    IEnumerator MoveFromTo(Transform objectToMove, Vector3 a, Vector3 b, float speed) {\n-         float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n-         float t = 0;\n-         while (t <= 1.0f) {\n-             t += step; // Goes from 0 to 1, incrementing by step each time\n-             objectToMove.position = Vector3.Lerp(a, b, t); // Move objectToMove closer to b\n-             yield return new WaitForFixedUpdate();         // Leave the routine and return here in the next frame\n-         }\n-         objectToMove.position = b;\n-    }\n }\n"
+                },
+                {
+                    "date": 1626033505061,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n using System.Collections;\n using System.Timers;\n using UnityEngine;\n \n-public class MoveCommand : MonoBehaviour, ICommand\n+public class MoveCommand : ICommand\n {\n     private GameObject targetWho;\n     private Vector3 targetWhere;\n \n"
+                },
+                {
+                    "date": 1626033635450,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,11 +15,15 @@\n     }\n \n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n-        //targetWho.transform.position = targetWhere;\n-\n         \n+        MoveController obj = targetWho.GetComponent<MoveController>();\n+        if (obj) {\n+            obj.SetTarget();\n+        } else {\n+            UnityEngine.Debug.Log(\"Object \" + obj.GetType().Name + \" does not have MoveController attached.\");\n+        }\n         \n         OnComplete();\n     }\n \n"
+                },
+                {
+                    "date": 1626033653475,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n         \n         MoveController obj = targetWho.GetComponent<MoveController>();\n         if (obj) {\n-            obj.SetTarget();\n+            obj.SetTarget(targetWhere);\n         } else {\n             UnityEngine.Debug.Log(\"Object \" + obj.GetType().Name + \" does not have MoveController attached.\");\n         }\n         \n"
+                },
+                {
+                    "date": 1626033729875,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n         MoveController obj = targetWho.GetComponent<MoveController>();\n         if (obj) {\n             obj.SetTarget(targetWhere);\n         } else {\n-            UnityEngine.Debug.Log(\"Object \" + obj.GetType().Name + \" does not have MoveController attached.\");\n+            UnityEngine.Debug.Log(\"Object does not have MoveController attached.\");\n         }\n         \n         OnComplete();\n     }\n"
+                },
+                {
+                    "date": 1626033759679,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n         MoveController obj = targetWho.GetComponent<MoveController>();\n         if (obj) {\n             obj.SetTarget(targetWhere);\n         } else {\n-            UnityEngine.Debug.Log(\"Object does not have MoveController attached.\");\n+            UnityEngine.Debug.Log(\"Object \" + targetWho.GetType().Name + \" does not have MoveController attached.\");\n         }\n         \n         OnComplete();\n     }\n"
+                },
+                {
+                    "date": 1626033785388,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,11 +16,11 @@\n \n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n         \n-        MoveController obj = targetWho.GetComponent<MoveController>();\n-        if (obj) {\n-            obj.SetTarget(targetWhere);\n+        MoveController controller = targetWho.GetComponent<MoveController>();\n+        if (controller) {\n+            controller.SetTarget(targetWhere);\n         } else {\n             UnityEngine.Debug.Log(\"Object \" + targetWho.GetType().Name + \" does not have MoveController attached.\");\n         }\n         \n"
+                },
+                {
+                    "date": 1626034069081,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,13 +18,11 @@\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n         \n         MoveController controller = targetWho.GetComponent<MoveController>();\n         if (controller) {\n-            controller.SetTarget(targetWhere);\n+            controller.SetTarget(targetWhere, OnComplete);\n         } else {\n             UnityEngine.Debug.Log(\"Object \" + targetWho.GetType().Name + \" does not have MoveController attached.\");\n         }\n-        \n-        OnComplete();\n     }\n \n }\n"
+                },
+                {
+                    "date": 1626035463942,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n         targetWho = who;\n         targetWhere = where;\n     }\n \n-    public void Execute(Action OnComplete) {\n+    public override void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n         \n         MoveController controller = targetWho.GetComponent<MoveController>();\n         if (controller) {\n"
+                },
+                {
+                    "date": 1626036313257,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n using System.Collections;\n using System.Timers;\n using UnityEngine;\n \n-public class MoveCommand : ICommand\n+public class MoveCommand : Command\n {\n     private GameObject targetWho;\n     private Vector3 targetWhere;\n \n"
+                },
+                {
+                    "date": 1626036380874,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n using System.Collections;\n using System.Timers;\n using UnityEngine;\n \n-public class MoveCommand : Command\n+public class MoveCommand : ICommand\n {\n     private GameObject targetWho;\n     private Vector3 targetWhere;\n \n"
+                },
+                {
+                    "date": 1626036389563,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n         targetWho = who;\n         targetWhere = where;\n     }\n \n-    public override void Execute(Action OnComplete) {\n+    public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n         \n         MoveController controller = targetWho.GetComponent<MoveController>();\n         if (controller) {\n"
+                }
+            ],
+            "date": 1626030032480,
+            "name": "Commit-0",
+            "content": "using UnityEngine;\n\npublic class MoveCommand\n{\n    private GameObject targetWho;\n    private Vector3 targetWhere;\n\n    public MoveCommand(GameObject who, Vector3 where)\n    {\n        targetWho = who;\n        targetWhere = where;\n    }\n\n    public override void Execute() {\n        UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n        targetWho.transform.position = targetWhere;\n    }\n}\n"
+        }
+    ]
+}

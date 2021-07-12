@@ -1,0 +1,26 @@
+{
+    "sourceFile": "Assets/Scripts/InputController.cs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1626029911701,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1626030000369,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,5 @@\n-namespace StarPotato.Assets.Scripts\n+\n+public class InputController : MonoBehaviour\n {\n-    public class InputController : MonoBehaviour\n-    {\n-        \n\\ No newline at end of file\n-    }\n-}\n+    \n+}\n"
+                },
+                {
+                    "date": 1626030023805,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+using UnityEngine;\n \n public class InputController : MonoBehaviour\n {\n     \n"
+                }
+            ],
+            "date": 1626029911701,
+            "name": "Commit-0",
+            "content": "namespace StarPotato.Assets.Scripts\n{\n    public class InputController : MonoBehaviour\n    {\n        \n    }\n}"
+        }
+    ]
+}

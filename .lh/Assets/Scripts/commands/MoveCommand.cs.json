@@ -1,0 +1,22 @@
+{
+    "sourceFile": "Assets/Scripts/commands/MoveCommand.cs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1626029737479,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1626029942655,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,19 +1,16 @@\n-namespace StarPotato.Assets.Scripts.commands\n+public class MoveCommand\n {\n-    public class MoveCommand\n+    private GameObject targetWho;\n+    private Vector3 targetWhere;\n+\n+    public MoveCommand(GameObject who, Vector3 where)\n     {\n-        private GameObject targetWho;\n-        private Vector3 targetWhere;\n+        targetWho = who;\n+        targetWhere = where;\n+    }\n \n-        public MoveCommand(GameObject who, Vector3 where)\n-        {\n-            targetWho = who;\n-            targetWhere = where;\n\\ No newline at end of file\n-        }\n-\n-        public override void Execute() {\n-            UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n-            targetWho.transform.position = targetWhere;\n-        }\n+    public override void Execute() {\n+        UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n+        targetWho.transform.position = targetWhere;\n     }\n-}\n+}\n"
+                }
+            ],
+            "date": 1626029737479,
+            "name": "Commit-0",
+            "content": "namespace StarPotato.Assets.Scripts.commands\n{\n    public class MoveCommand\n    {\n        private GameObject targetWho;\n        private Vector3 targetWhere;\n\n        public MoveCommand(GameObject who, Vector3 where)\n        {\n            targetWho = who;\n            targetWhere = where;\n        }\n\n        public override void Execute() {\n            UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n            targetWho.transform.position = targetWhere;\n        }\n    }\n}"
+        }
+    ]
+}

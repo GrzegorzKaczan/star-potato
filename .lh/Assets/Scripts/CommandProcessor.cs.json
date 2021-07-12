@@ -1,0 +1,138 @@
+{
+    "sourceFile": "Assets/Scripts/CommandProcessor.cs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 30,
+            "patches": [
+                {
+                    "date": 1626030053404,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1626030154159,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n using UnityEngine;\n+using System.Collections;\n \n public class CommandProcessor\n {\n     private Queue<ICommand> commands = new Queue<ICommand>();\n"
+                },
+                {
+                    "date": 1626030243829,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n using UnityEngine;\n using System.Collections;\n+using System.Collections.Generic; \n \n public class CommandProcessor\n {\n     private Queue<ICommand> commands = new Queue<ICommand>();\n"
+                },
+                {
+                    "date": 1626030405436,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,7 +7,7 @@\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n         UnityEngine.Debug.Log(\"Adding: \" + command.GetType().Name);\n-        command.Execute();\n+        command.Execute(out done);\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626030465369,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,7 +7,9 @@\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n         UnityEngine.Debug.Log(\"Adding: \" + command.GetType().Name);\n-        command.Execute(out done);\n+        command.Execute(out () => {\n+            \n+        });\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626030511666,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,13 +3,14 @@\n using System.Collections.Generic; \n \n public class CommandProcessor\n {\n+    public delegate void FinishDelegate();\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n         UnityEngine.Debug.Log(\"Adding: \" + command.GetType().Name);\n         command.Execute(out () => {\n-            \n+\n         });\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626030568522,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,13 +4,12 @@\n \n public class CommandProcessor\n {\n     public delegate void FinishDelegate();\n+    public FinishDelegate commandFinishedCallback;\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n         UnityEngine.Debug.Log(\"Adding: \" + command.GetType().Name);\n-        command.Execute(out () => {\n-\n-        });\n+        command.Execute(commandFinishedCallback);\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626030870560,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,13 +3,16 @@\n using System.Collections.Generic; \n \n public class CommandProcessor\n {\n-    public delegate void FinishDelegate();\n-    public FinishDelegate commandFinishedCallback;\n+    public delegate void DoneDelegate();\n+    public DoneDelegate doneCallback;\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n         UnityEngine.Debug.Log(\"Adding: \" + command.GetType().Name);\n-        command.Execute(commandFinishedCallback);\n+        doneCallback => {\n+            UnityEngine.Debug.Log(\"aaa\");\n+        };\n+        command.Execute(doneCallback);\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626030902535,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,14 +5,16 @@\n public class CommandProcessor\n {\n     public delegate void DoneDelegate();\n     public DoneDelegate doneCallback;\n+    void PrintNum()\n+    {\n+        UnityEngine.Debug.Log(\"aaa\");\n+    }\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n         UnityEngine.Debug.Log(\"Adding: \" + command.GetType().Name);\n-        doneCallback => {\n-            UnityEngine.Debug.Log(\"aaa\");\n-        };\n+        doneCallback = PrintNum;\n         command.Execute(doneCallback);\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626031186256,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,8 @@\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n         UnityEngine.Debug.Log(\"Adding: \" + command.GetType().Name);\n-        doneCallback = PrintNum;\n+        \n         command.Execute(doneCallback);\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626031274398,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n using UnityEngine;\n-using System.Collections;\n+using System;\n using System.Collections.Generic; \n \n public class CommandProcessor\n {\n@@ -14,7 +14,11 @@\n \n     public void Add(ICommand command) {\n         UnityEngine.Debug.Log(\"Adding: \" + command.GetType().Name);\n         \n-        command.Execute(doneCallback);\n+        command.Execute(OnCommandComplete);\n     }\n+\n+    private void OnCommandComplete(Boolean val) {\n+        UnityEngine.Debug.Log(\"Command completed\");\n+    }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626031678189,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n     }\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n-        UnityEngine.Debug.Log(\"Adding: \" + command.GetType().Name);\n+        commands.Enqueue(command);\n         \n         command.Execute(OnCommandComplete);\n     }\n \n"
+                },
+                {
+                    "date": 1626031809109,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,8 +17,8 @@\n         \n         command.Execute(OnCommandComplete);\n     }\n \n-    private void OnCommandComplete(Boolean val) {\n+    private void OnCommandComplete() {\n         UnityEngine.Debug.Log(\"Command completed\");\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626034597271,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,6 +19,8 @@\n     }\n \n     private void OnCommandComplete() {\n         UnityEngine.Debug.Log(\"Command completed\");\n+\n+        \n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626034631206,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,7 +20,7 @@\n \n     private void OnCommandComplete() {\n         UnityEngine.Debug.Log(\"Command completed\");\n \n-        \n+        commands.Dequeue\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626034691253,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,14 +13,16 @@\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n         commands.Enqueue(command);\n-        \n-        command.Execute(OnCommandComplete);\n+\n+        if (commands.Count) {\n+\n+        }\n     }\n \n     private void OnCommandComplete() {\n         UnityEngine.Debug.Log(\"Command completed\");\n \n-        commands.Dequeue\n+        ICommand nextCommand = commands.Dequeue();\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626034812473,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,15 +14,19 @@\n \n     public void Add(ICommand command) {\n         commands.Enqueue(command);\n \n-        if (commands.Count) {\n-\n+        if (commands.Count == 0) {\n+            command.Execute(OnCommandComplete);\n         }\n     }\n \n     private void OnCommandComplete() {\n         UnityEngine.Debug.Log(\"Command completed\");\n \n         ICommand nextCommand = commands.Dequeue();\n+\n+        if (nextCommand != null) {\n+            nextCommand.Execute(OnCommandComplete);\n+        }\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626034911412,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,18 +15,22 @@\n     public void Add(ICommand command) {\n         commands.Enqueue(command);\n \n         if (commands.Count == 0) {\n-            command.Execute(OnCommandComplete);\n+            ExecuteNextCommand();\n         }\n     }\n \n-    private void OnCommandComplete() {\n-        UnityEngine.Debug.Log(\"Command completed\");\n-\n+    private void ExecuteNextCommand() {\n         ICommand nextCommand = commands.Dequeue();\n \n         if (nextCommand != null) {\n             nextCommand.Execute(OnCommandComplete);\n         }\n     }\n+\n+    private void OnCommandComplete() {\n+        UnityEngine.Debug.Log(\"Command completed\");\n+\n+        ExecuteNextCommand();\n+    }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626034954526,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,8 +12,9 @@\n     }\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n+        UnityEngine.Debug.Log(\"add\");\n         commands.Enqueue(command);\n \n         if (commands.Count == 0) {\n             ExecuteNextCommand();\n@@ -21,10 +22,12 @@\n     }\n \n     private void ExecuteNextCommand() {\n         ICommand nextCommand = commands.Dequeue();\n+        UnityEngine.Debug.Log(\"get next \");\n \n         if (nextCommand != null) {\n+            UnityEngine.Debug.Log(\"execute next\");\n             nextCommand.Execute(OnCommandComplete);\n         }\n     }\n \n"
+                },
+                {
+                    "date": 1626034976977,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n     public void Add(ICommand command) {\n         UnityEngine.Debug.Log(\"add\");\n         commands.Enqueue(command);\n \n-        if (commands.Count == 0) {\n+        if (commands.Count == 1) {\n             ExecuteNextCommand();\n         }\n     }\n \n"
+                },
+                {
+                    "date": 1626035014040,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,14 +21,16 @@\n         }\n     }\n \n     private void ExecuteNextCommand() {\n-        ICommand nextCommand = commands.Dequeue();\n-        UnityEngine.Debug.Log(\"get next \");\n+        if (commands.Count > 0) {\n+            ICommand nextCommand = commands.Dequeue();\n+            UnityEngine.Debug.Log(\"get next \");\n \n-        if (nextCommand != null) {\n-            UnityEngine.Debug.Log(\"execute next\");\n-            nextCommand.Execute(OnCommandComplete);\n+            if (nextCommand != null) {\n+                UnityEngine.Debug.Log(\"execute next\");\n+                nextCommand.Execute(OnCommandComplete);\n+            }\n         }\n     }\n \n     private void OnCommandComplete() {\n"
+                },
+                {
+                    "date": 1626035067835,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,10 @@\n     void PrintNum()\n     {\n         UnityEngine.Debug.Log(\"aaa\");\n     }\n+\n+    [SerializedField]\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n         UnityEngine.Debug.Log(\"add\");\n"
+                },
+                {
+                    "date": 1626035108002,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,8 @@\n     {\n         UnityEngine.Debug.Log(\"aaa\");\n     }\n \n-    [SerializedField]\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n         UnityEngine.Debug.Log(\"add\");\n"
+                },
+                {
+                    "date": 1626035929222,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n \n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n-        UnityEngine.Debug.Log(\"add\");\n+        UnityEngine.Debug.Log(\"add: \" + commands.Count);\n         commands.Enqueue(command);\n \n         if (commands.Count == 1) {\n             ExecuteNextCommand();\n"
+                },
+                {
+                    "date": 1626036076683,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,9 +23,9 @@\n     }\n \n     private void ExecuteNextCommand() {\n         if (commands.Count > 0) {\n-            ICommand nextCommand = commands.Dequeue();\n+            ICommand nextCommand = commands.Peek();\n             UnityEngine.Debug.Log(\"get next \");\n \n             if (nextCommand != null) {\n                 UnityEngine.Debug.Log(\"execute next\");\n"
+                },
+                {
+                    "date": 1626036170080,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,7 +36,8 @@\n \n     private void OnCommandComplete() {\n         UnityEngine.Debug.Log(\"Command completed\");\n \n+        commands.Dequeue();\n         ExecuteNextCommand();\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626036314652,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,11 +10,11 @@\n     {\n         UnityEngine.Debug.Log(\"aaa\");\n     }\n \n-    private Queue<ICommand> commands = new Queue<ICommand>();\n+    private Queue<Command> commands = new Queue<Command>();\n \n-    public void Add(ICommand command) {\n+    public void Add(Command command) {\n         UnityEngine.Debug.Log(\"add: \" + commands.Count);\n         commands.Enqueue(command);\n \n         if (commands.Count == 1) {\n@@ -23,9 +23,9 @@\n     }\n \n     private void ExecuteNextCommand() {\n         if (commands.Count > 0) {\n-            ICommand nextCommand = commands.Peek();\n+            Command nextCommand = commands.Peek();\n             UnityEngine.Debug.Log(\"get next \");\n \n             if (nextCommand != null) {\n                 UnityEngine.Debug.Log(\"execute next\");\n"
+                },
+                {
+                    "date": 1626036389565,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,11 +10,11 @@\n     {\n         UnityEngine.Debug.Log(\"aaa\");\n     }\n \n-    private Queue<Command> commands = new Queue<Command>();\n+    private Queue<ICommand> commands = new Queue<ICommand>();\n \n-    public void Add(Command command) {\n+    public void Add(ICommand command) {\n         UnityEngine.Debug.Log(\"add: \" + commands.Count);\n         commands.Enqueue(command);\n \n         if (commands.Count == 1) {\n@@ -23,9 +23,9 @@\n     }\n \n     private void ExecuteNextCommand() {\n         if (commands.Count > 0) {\n-            Command nextCommand = commands.Peek();\n+            ICommand nextCommand = commands.Peek();\n             UnityEngine.Debug.Log(\"get next \");\n \n             if (nextCommand != null) {\n                 UnityEngine.Debug.Log(\"execute next\");\n"
+                },
+                {
+                    "date": 1626113205778,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,8 +21,14 @@\n             ExecuteNextCommand();\n         }\n     }\n \n+    public void Add(Queue<ICommand> newCommands) {\n+        for (int i = 0; i < newCommands.Count; i++) {\n+            Add(newCommands.Dequeue());\n+        }\n+    }\n+\n     private void ExecuteNextCommand() {\n         if (commands.Count > 0) {\n             ICommand nextCommand = commands.Peek();\n             UnityEngine.Debug.Log(\"get next \");\n"
+                },
+                {
+                    "date": 1626113338884,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,11 +22,11 @@\n         }\n     }\n \n     public void Add(Queue<ICommand> newCommands) {\n-        for (int i = 0; i < newCommands.Count; i++) {\n+        do {\n             Add(newCommands.Dequeue());\n-        }\n+        } while (newCommands.Count > 0);\n     }\n \n     private void ExecuteNextCommand() {\n         if (commands.Count > 0) {\n"
+                },
+                {
+                    "date": 1626114315709,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,8 +28,9 @@\n         } while (newCommands.Count > 0);\n     }\n \n     private void ExecuteNextCommand() {\n+        UnityEngine.Debug.Log(\"check next \");\n         if (commands.Count > 0) {\n             ICommand nextCommand = commands.Peek();\n             UnityEngine.Debug.Log(\"get next \");\n \n"
+                }
+            ],
+            "date": 1626030053404,
+            "name": "Commit-0",
+            "content": "using UnityEngine;\n\npublic class CommandProcessor\n{\n    private Queue<ICommand> commands = new Queue<ICommand>();\n\n    public void Add(ICommand command) {\n        UnityEngine.Debug.Log(\"Adding: \" + command.GetType().Name);\n        command.Execute();\n    }\n}"
+        }
+    ]
+}

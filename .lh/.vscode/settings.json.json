@@ -1,0 +1,34 @@
+{
+    "sourceFile": ".vscode/settings.json",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 4,
+            "patches": [
+                {
+                    "date": 1625869971359,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1625870068683,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,6 +52,6 @@\n         \"ProjectSettings/\":true,\n         \"temp/\":true,\n         \"Temp/\":true\n     },\n-    \"omnisharp.useGlobalMono\": \"always\"\n+    \"omnisharp.useGlobalMono\": \"never\"\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1625870077311,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,6 +52,6 @@\n         \"ProjectSettings/\":true,\n         \"temp/\":true,\n         \"Temp/\":true\n     },\n-    \"omnisharp.useGlobalMono\": \"never\"\n+    \"omnisharp.useGlobalMono\": \"always\"\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626007061653,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,6 +52,9 @@\n         \"ProjectSettings/\":true,\n         \"temp/\":true,\n         \"Temp/\":true\n     },\n-    \"omnisharp.useGlobalMono\": \"always\"\n+    \"omnisharp.useGlobalMono\": \"always\",\n+    \"cSpell.words\": [\n+        \"Behaviour\"\n+    ]\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626033910213,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,7 +54,8 @@\n         \"Temp/\":true\n     },\n     \"omnisharp.useGlobalMono\": \"always\",\n     \"cSpell.words\": [\n-        \"Behaviour\"\n+        \"Behaviour\",\n+        \"Lerp\"\n     ]\n }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1625869971359,
+            "name": "Commit-0",
+            "content": "{\n    \"files.exclude\":\n    {\n        \"**/.DS_Store\":true,\n        \"**/.git\":true,\n        \"**/.gitignore\":true,\n        \"**/.gitmodules\":true,\n        \"**/*.booproj\":true,\n        \"**/*.pidb\":true,\n        \"**/*.suo\":true,\n        \"**/*.user\":true,\n        \"**/*.userprefs\":true,\n        \"**/*.unityproj\":true,\n        \"**/*.dll\":true,\n        \"**/*.exe\":true,\n        \"**/*.pdf\":true,\n        \"**/*.mid\":true,\n        \"**/*.midi\":true,\n        \"**/*.wav\":true,\n        \"**/*.gif\":true,\n        \"**/*.ico\":true,\n        \"**/*.jpg\":true,\n        \"**/*.jpeg\":true,\n        \"**/*.png\":true,\n        \"**/*.psd\":true,\n        \"**/*.tga\":true,\n        \"**/*.tif\":true,\n        \"**/*.tiff\":true,\n        \"**/*.3ds\":true,\n        \"**/*.3DS\":true,\n        \"**/*.fbx\":true,\n        \"**/*.FBX\":true,\n        \"**/*.lxo\":true,\n        \"**/*.LXO\":true,\n        \"**/*.ma\":true,\n        \"**/*.MA\":true,\n        \"**/*.obj\":true,\n        \"**/*.OBJ\":true,\n        \"**/*.asset\":true,\n        \"**/*.cubemap\":true,\n        \"**/*.flare\":true,\n        \"**/*.mat\":true,\n        \"**/*.meta\":true,\n        \"**/*.prefab\":true,\n        \"**/*.unity\":true,\n        \"build/\":true,\n        \"Build/\":true,\n        \"Library/\":true,\n        \"library/\":true,\n        \"obj/\":true,\n        \"Obj/\":true,\n        \"ProjectSettings/\":true,\n        \"temp/\":true,\n        \"Temp/\":true\n    },\n    \"omnisharp.useGlobalMono\": \"always\"\n}"
+        }
+    ]
+}

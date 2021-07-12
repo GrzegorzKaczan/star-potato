@@ -1,0 +1,94 @@
+{
+    "sourceFile": "Assets/Scripts/DiamondInteractableController.cs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 19,
+            "patches": [
+                {
+                    "date": 1626112539545,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1626112605999,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,14 +1,14 @@\n using UnityEngine;\n using System;\n using System.Collections;\n \n-public class DiamondInteractableController : IInteractable\n+public class DiamondInteractableController : MonoBehaviour, IInteractable\n {\n     public Queue<Command> GetCommands(GameObject player) {\n         Queue<Command> commands = new Queue<Command>();\n \n-        commands.Add(new Command)\n+        commands.Add(new MoveCommand(player, transform.position));\n \n         return commands;\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626112626763,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n using UnityEngine;\n using System;\n-using System.Collections;\n+using System.Collections.Generic; \n \n public class DiamondInteractableController : MonoBehaviour, IInteractable\n {\n     public Queue<Command> GetCommands(GameObject player) {\n"
+                },
+                {
+                    "date": 1626112646563,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,10 +3,10 @@\n using System.Collections.Generic; \n \n public class DiamondInteractableController : MonoBehaviour, IInteractable\n {\n-    public Queue<Command> GetCommands(GameObject player) {\n-        Queue<Command> commands = new Queue<Command>();\n+    public Queue<ICommand> GetCommands(GameObject player) {\n+        Queue<ICommand> commands = new Queue<ICommand>();\n \n         commands.Add(new MoveCommand(player, transform.position));\n \n         return commands;\n"
+                },
+                {
+                    "date": 1626112678773,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n {\n     public Queue<ICommand> GetCommands(GameObject player) {\n         Queue<ICommand> commands = new Queue<ICommand>();\n \n-        commands.Add(new MoveCommand(player, transform.position));\n+        commands.Enqueue(new MoveCommand(player, transform.position));\n \n         return commands;\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626112814191,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n using UnityEngine;\n using System;\n using System.Collections.Generic; \n \n-public class DiamondInteractableController : MonoBehaviour, IInteractable\n+public class DiamondInteractableController : MonoBehaviour, IInteractableController\n {\n     public Queue<ICommand> GetCommands(GameObject player) {\n         Queue<ICommand> commands = new Queue<ICommand>();\n \n"
+                },
+                {
+                    "date": 1626113026323,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,9 @@\n     public Queue<ICommand> GetCommands(GameObject player) {\n         Queue<ICommand> commands = new Queue<ICommand>();\n \n         commands.Enqueue(new MoveCommand(player, transform.position));\n+        commands.Enqueue(new MoveCommand(player, transform.position - 5f));\n \n         return commands;\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626113033436,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n     public Queue<ICommand> GetCommands(GameObject player) {\n         Queue<ICommand> commands = new Queue<ICommand>();\n \n         commands.Enqueue(new MoveCommand(player, transform.position));\n-        commands.Enqueue(new MoveCommand(player, transform.position - 5f));\n+        commands.Enqueue(new MoveCommand(player, transform.position - 5f\\));\n \n         return commands;\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626113051593,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n     public Queue<ICommand> GetCommands(GameObject player) {\n         Queue<ICommand> commands = new Queue<ICommand>();\n \n         commands.Enqueue(new MoveCommand(player, transform.position));\n-        commands.Enqueue(new MoveCommand(player, transform.position - 5f\\));\n+        commands.Enqueue(new MoveCommand(player, transform.position - new Vector3(5, 5, 0) ));\n \n         return commands;\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626113365971,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n     public Queue<ICommand> GetCommands(GameObject player) {\n         Queue<ICommand> commands = new Queue<ICommand>();\n \n         commands.Enqueue(new MoveCommand(player, transform.position));\n-        commands.Enqueue(new MoveCommand(player, transform.position - new Vector3(5, 5, 0) ));\n+        commands.Enqueue(new MoveCommand(player, transform.position - new Vector3(-2, 00, 0) ));\n \n         return commands;\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626113510171,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,12 +4,10 @@\n \n public class DiamondInteractableController : MonoBehaviour, IInteractableController\n {\n     public Queue<ICommand> GetCommands(GameObject player) {\n-        Queue<ICommand> commands = new Queue<ICommand>();\n-\n-        commands.Enqueue(new MoveCommand(player, transform.position));\n-        commands.Enqueue(new MoveCommand(player, transform.position - new Vector3(-2, 00, 0) ));\n-\n-        return commands;\n+        return new Queue<ICommand>(new [] {\n+            new MoveCommand(player, transform.position),\n+            new MoveCommand(player, transform.position - new Vector3(-2, 0, 0))\n+        });\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626113564971,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n using UnityEngine;\n using System;\n using System.Collections.Generic; \n \n-public class DiamondInteractableController : MonoBehaviour, IInteractableController\n+public class DiamondInteractableController : MonoBehaviour, InteractableController\n {\n     public Queue<ICommand> GetCommands(GameObject player) {\n         return new Queue<ICommand>(new [] {\n             new MoveCommand(player, transform.position),\n"
+                },
+                {
+                    "date": 1626113586167,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n using UnityEngine;\n using System;\n using System.Collections.Generic; \n \n-public class DiamondInteractableController : MonoBehaviour, InteractableController\n+public class DiamondInteractableController : MonoBehaviour, IInteractableController\n {\n     public Queue<ICommand> GetCommands(GameObject player) {\n         return new Queue<ICommand>(new [] {\n             new MoveCommand(player, transform.position),\n"
+                },
+                {
+                    "date": 1626114873849,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,9 @@\n {\n     public Queue<ICommand> GetCommands(GameObject player) {\n         return new Queue<ICommand>(new [] {\n             new MoveCommand(player, transform.position),\n-            new MoveCommand(player, transform.position - new Vector3(-2, 0, 0))\n+            new MoveCommand(player, transform.position - new Vector3(-2, 0, 0)),\n+            new PickUpCommand(transform.position.gameObject)\n         });\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626114932052,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,8 @@\n     public Queue<ICommand> GetCommands(GameObject player) {\n         return new Queue<ICommand>(new [] {\n             new MoveCommand(player, transform.position),\n             new MoveCommand(player, transform.position - new Vector3(-2, 0, 0)),\n-            new PickUpCommand(transform.position.gameObject)\n+            new PickUpCommand(transform.gameObject)\n         });\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626114941021,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,8 @@\n     public Queue<ICommand> GetCommands(GameObject player) {\n         return new Queue<ICommand>(new [] {\n             new MoveCommand(player, transform.position),\n             new MoveCommand(player, transform.position - new Vector3(-2, 0, 0)),\n-            new PickUpCommand(transform.gameObject)\n+            new PickUpCommand(this)\n         });\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626114983052,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,8 @@\n     public Queue<ICommand> GetCommands(GameObject player) {\n         return new Queue<ICommand>(new [] {\n             new MoveCommand(player, transform.position),\n             new MoveCommand(player, transform.position - new Vector3(-2, 0, 0)),\n-            new PickUpCommand(this)\n+            new PickUpCommand(gameObject)\n         });\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626123638076,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n public class DiamondInteractableController : MonoBehaviour, IInteractableController\n {\n     public Queue<ICommand> GetCommands(GameObject player) {\n-        return new Queue<ICommand>(new [] {\n+        return new Queue<ICommand>(new object[] {\n             new MoveCommand(player, transform.position),\n             new MoveCommand(player, transform.position - new Vector3(-2, 0, 0)),\n             new PickUpCommand(gameObject)\n         });\n"
+                },
+                {
+                    "date": 1626123649904,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n public class DiamondInteractableController : MonoBehaviour, IInteractableController\n {\n     public Queue<ICommand> GetCommands(GameObject player) {\n-        return new Queue<ICommand>(new object[] {\n+        return new Queue<ICommand>(new ICommand[] {\n             new MoveCommand(player, transform.position),\n             new MoveCommand(player, transform.position - new Vector3(-2, 0, 0)),\n             new PickUpCommand(gameObject)\n         });\n"
+                },
+                {
+                    "date": 1626124996703,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,8 @@\n     public Queue<ICommand> GetCommands(GameObject player) {\n         return new Queue<ICommand>(new ICommand[] {\n             new MoveCommand(player, transform.position),\n             new MoveCommand(player, transform.position - new Vector3(-2, 0, 0)),\n-            new PickUpCommand(gameObject)\n+            new PickUpCommand(player, gameObject)\n         });\n     }\n }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1626112539545,
+            "name": "Commit-0",
+            "content": "using UnityEngine;\nusing System;\nusing System.Collections;\n\npublic class DiamondInteractableController : IInteractable\n{\n    public Queue<Command> GetCommands(GameObject player) {\n        Queue<Command> commands = new Queue<Command>();\n\n        commands.Add(new Command)\n\n        return commands;\n    }\n}"
+        }
+    ]
+}

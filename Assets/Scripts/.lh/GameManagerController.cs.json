@@ -1,0 +1,222 @@
+{
+    "sourceFile": "GameManagerController.cs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 51,
+            "patches": [
+                {
+                    "date": 1625860764962,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1625861402528,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,5 +4,6 @@\n \n public class GameManagerController : MonoBehaviour\n {\n     public GameObject player;\n+    \n }\n"
+                },
+                {
+                    "date": 1625861480314,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,5 +5,8 @@\n public class GameManagerController : MonoBehaviour\n {\n     public GameObject player;\n     \n+    private void OnMouseDown() {\n+        Debug.Log(\"ttttt\")\n+    }\n }\n"
+                },
+                {
+                    "date": 1625861562080,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,8 +5,8 @@\n public class GameManagerController : MonoBehaviour\n {\n     public GameObject player;\n     \n-    private void OnMouseDown() {\n-        Debug.Log(\"ttttt\")\n+    private void Update() {\n+        if (Input)\n     }\n }\n"
+                },
+                {
+                    "date": 1625861649965,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,7 +6,7 @@\n {\n     public GameObject player;\n     \n     private void Update() {\n-        if (Input)\n+        if ()\n     }\n }\n"
+                },
+                {
+                    "date": 1625862759907,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,7 +6,13 @@\n {\n     public GameObject player;\n     \n     private void Update() {\n-        if ()\n+       if (Input.GetMouseButtonDown(0)) {\n+            Vector3 mousePos = Input.mousePosition;\n+            mousePos.z = Camera.main.nearClipPlane;\n+            Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n+\n+            Collider[] hitColliders = Physics.OverlapBox(checkPosition, 1, Quaternion.identity, null);\n+        }\n     }\n }\n"
+                },
+                {
+                    "date": 1625862777000,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,13 +6,13 @@\n {\n     public GameObject player;\n     \n     private void Update() {\n-       if (Input.GetMouseButtonDown(0)) {\n+        if (Input.GetMouseButtonDown(0)) {\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-            Collider[] hitColliders = Physics.OverlapBox(checkPosition, 1, Quaternion.identity, null);\n+            Collider[] hitColliders = Physics.OverlapBox(checkPosition, Vector3.zero, Quaternion.identity, null);\n         }\n     }\n }\n"
+                },
+                {
+                    "date": 1625862785353,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,8 +11,8 @@\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-            Collider[] hitColliders = Physics.OverlapBox(checkPosition, Vector3.zero, Quaternion.identity, null);\n+            Collider[] hitColliders = Physics.OverlapBox(checkPosition, Vector3.zero, Quaternion.identity, 0);\n         }\n     }\n }\n"
+                },
+                {
+                    "date": 1625862808550,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,7 +12,9 @@\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n             Collider[] hitColliders = Physics.OverlapBox(checkPosition, Vector3.zero, Quaternion.identity, 0);\n+\n+            Debug.Log(hitColliders);\n         }\n     }\n }\n"
+                },
+                {
+                    "date": 1625862875575,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-            Collider[] hitColliders = Physics.OverlapBox(checkPosition, Vector3.zero, Quaternion.identity, 0);\n+            Collider[] hitColliders = Physics.OverlapBox(checkPosition, Vector3.one, Quaternion.identity, 0);\n \n             Debug.Log(hitColliders);\n         }\n     }\n"
+                },
+                {
+                    "date": 1625862908720,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,10 +11,10 @@\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-            Collider[] hitColliders = Physics.OverlapBox(checkPosition, Vector3.one, Quaternion.identity, 0);\n+            Collider[] hitColliders = Physics.OverlapBox(checkPosition, new Vector3(1, 1, 1), Quaternion.identity, 0);\n \n-            Debug.Log(hitColliders);\n+            Debug.Log(hitColliders.length);\n         }\n     }\n }\n"
+                },
+                {
+                    "date": 1625862922930,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,8 @@\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n             Collider[] hitColliders = Physics.OverlapBox(checkPosition, new Vector3(1, 1, 1), Quaternion.identity, 0);\n \n-            Debug.Log(hitColliders.length);\n+            Debug.Log(hitColliders.GetLength());\n         }\n     }\n }\n"
+                },
+                {
+                    "date": 1625862956287,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,8 @@\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n             Collider[] hitColliders = Physics.OverlapBox(checkPosition, new Vector3(1, 1, 1), Quaternion.identity, 0);\n \n-            Debug.Log(hitColliders.GetLength());\n+            Debug.Log(hitColliders.Length);\n         }\n     }\n }\n"
+                },
+                {
+                    "date": 1625862995341,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-            Collider[] hitColliders = Physics.OverlapBox(checkPosition, new Vector3(1, 1, 1), Quaternion.identity, 0);\n+            Collider[] hitColliders = Physics.OverlapBox(checkPosition, new Vector3(1, 1, 1), Quaternion.identity, 1);\n \n             Debug.Log(hitColliders.Length);\n         }\n     }\n"
+                },
+                {
+                    "date": 1625863024221,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-            Collider[] hitColliders = Physics.OverlapBox(checkPosition, new Vector3(1, 1, 1), Quaternion.identity, 1);\n+            Collider[] hitColliders = Physics.OverlapBox(checkPosition, new Vector3(5, 5, 0), Quaternion.identity, 1);\n \n             Debug.Log(hitColliders.Length);\n         }\n     }\n"
+                },
+                {
+                    "date": 1625863227695,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,10 +11,14 @@\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-            Collider[] hitColliders = Physics.OverlapBox(checkPosition, new Vector3(5, 5, 0), Quaternion.identity, 1);\n-\n-            Debug.Log(hitColliders.Length);\n+            Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n+            RaycastHit hit;\n+            \n+            if( Physics.Raycast( ray, out hit, 5 ) )\n+            {\n+                Debug.Log( hit.transform.gameObject.name );\n+            }\n         }\n     }\n }\n"
+                },
+                {
+                    "date": 1625863258087,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,12 +11,12 @@\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-            Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n+            Ray ray = Camera.main.ScreenPointToRay( checkPosition );\n             RaycastHit hit;\n             \n-            if( Physics.Raycast( ray, out hit, 5 ) )\n+            if( Physics.Raycast( ray, out hit, 100 ) )\n             {\n                 Debug.Log( hit.transform.gameObject.name );\n             }\n         }\n"
+                },
+                {
+                    "date": 1625863274438,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-            Ray ray = Camera.main.ScreenPointToRay( checkPosition );\n+            Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n             RaycastHit hit;\n             \n             if( Physics.Raycast( ray, out hit, 100 ) )\n             {\n"
+                },
+                {
+                    "date": 1625863330236,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-            Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n+            Ray ray = Camera.main.WorldPointToRay( checkPosition );\n             RaycastHit hit;\n             \n             if( Physics.Raycast( ray, out hit, 100 ) )\n             {\n"
+                },
+                {
+                    "date": 1625863395351,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n             Ray ray = Camera.main.WorldPointToRay( checkPosition );\n             RaycastHit hit;\n-            \n+            Debug.DrawRay(ray.origin, ray.direction);\n             if( Physics.Raycast( ray, out hit, 100 ) )\n             {\n                 Debug.Log( hit.transform.gameObject.name );\n             }\n"
+                },
+                {
+                    "date": 1625863411586,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-            Ray ray = Camera.main.WorldPointToRay( checkPosition );\n+            Ray ray = Camera.main.ScreenPointToRay( checkPosition );\n             RaycastHit hit;\n             Debug.DrawRay(ray.origin, ray.direction);\n             if( Physics.Raycast( ray, out hit, 100 ) )\n             {\n"
+                },
+                {
+                    "date": 1625863443825,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-            Ray ray = Camera.main.ScreenPointToRay( checkPosition );\n+            Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n             RaycastHit hit;\n             Debug.DrawRay(ray.origin, ray.direction);\n             if( Physics.Raycast( ray, out hit, 100 ) )\n             {\n"
+                },
+                {
+                    "date": 1625863526952,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n \n             Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n             RaycastHit hit;\n             Debug.DrawRay(ray.origin, ray.direction);\n-            if( Physics.Raycast( ray, out hit, 100 ) )\n+            if( Physics.Raycast( ray, out hit ) )\n             {\n                 Debug.Log( hit.transform.gameObject.name );\n             }\n         }\n"
+                },
+                {
+                    "date": 1625863540873,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+using System.Diagnostics;\n using System.Collections;\n using System.Collections.Generic;\n using UnityEngine;\n \n@@ -14,8 +15,9 @@\n \n             Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n             RaycastHit hit;\n             Debug.DrawRay(ray.origin, ray.direction);\n+            Debug.log(\"Hit\");\n             if( Physics.Raycast( ray, out hit ) )\n             {\n                 Debug.Log( hit.transform.gameObject.name );\n             }\n"
+                },
+                {
+                    "date": 1625863560746,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n \n             Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n             RaycastHit hit;\n             Debug.DrawRay(ray.origin, ray.direction);\n-            Debug.log(\"Hit\");\n+            Debug.Log(\"Hit\");\n             if( Physics.Raycast( ray, out hit ) )\n             {\n                 Debug.Log( hit.transform.gameObject.name );\n             }\n"
+                },
+                {
+                    "date": 1625863576311,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,8 @@\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n             Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n             RaycastHit hit;\n-            Debug.DrawRay(ray.origin, ray.direction);\n             Debug.Log(\"Hit\");\n             if( Physics.Raycast( ray, out hit ) )\n             {\n                 Debug.Log( hit.transform.gameObject.name );\n"
+                },
+                {
+                    "date": 1625863598513,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n             Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n             RaycastHit hit;\n-            Debug.Log(\"Hit\");\n+            System.Debug.Log(\"Hit\");\n             if( Physics.Raycast( ray, out hit ) )\n             {\n                 Debug.Log( hit.transform.gameObject.name );\n             }\n"
+                },
+                {
+                    "date": 1625863608899,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n             Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n             RaycastHit hit;\n-            System.Debug.Log(\"Hit\");\n+            Debug.Log(\"Hit\");\n             if( Physics.Raycast( ray, out hit ) )\n             {\n                 Debug.Log( hit.transform.gameObject.name );\n             }\n"
+                },
+                {
+                    "date": 1625863649078,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,12 +14,12 @@\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n             Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n             RaycastHit hit;\n-            Debug.Log(\"Hit\");\n+            UnityEngine.Debug.Log(\"Hit\");\n             if( Physics.Raycast( ray, out hit ) )\n             {\n-                Debug.Log( hit.transform.gameObject.name );\n+                UnityEngine.Debug.Log( hit.transform.gameObject.name );\n             }\n         }\n     }\n }\n"
+                },
+                {
+                    "date": 1625863680088,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n             Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n             RaycastHit hit;\n-            UnityEngine.Debug.Log(\"Hit\");\n+            UnityEngine.Debug.Log(\"Hit\", Physics.Raycast( ray, out hit ));\n             if( Physics.Raycast( ray, out hit ) )\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n             }\n"
+                },
+                {
+                    "date": 1625863694983,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n             Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n             RaycastHit hit;\n-            UnityEngine.Debug.Log(\"Hit\", Physics.Raycast( ray, out hit ));\n+            UnityEngine.Debug.Log(\"Hit\", Physics.Raycast( ray, out hit ).toString());\n             if( Physics.Raycast( ray, out hit ) )\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n             }\n"
+                },
+                {
+                    "date": 1625863725022,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n             Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n             RaycastHit hit;\n-            UnityEngine.Debug.Log(\"Hit\", Physics.Raycast( ray, out hit ).toString());\n+            UnityEngine.Debug.Log(\"Hit\", String.fromBool(Physics.Raycast( ray, out hit )));\n             if( Physics.Raycast( ray, out hit ) )\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n             }\n"
+                },
+                {
+                    "date": 1625863730952,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n             Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n             RaycastHit hit;\n-            UnityEngine.Debug.Log(\"Hit\", String.fromBool(Physics.Raycast( ray, out hit )));\n+            UnityEngine.Debug.Log(\"Hit\", string.fromBool(Physics.Raycast( ray, out hit )));\n             if( Physics.Raycast( ray, out hit ) )\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n             }\n"
+                },
+                {
+                    "date": 1625863738298,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n             Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n             RaycastHit hit;\n-            UnityEngine.Debug.Log(\"Hit\", string.fromBool(Physics.Raycast( ray, out hit )));\n+            UnityEngine.Debug.Log(\"Hit\");\n             if( Physics.Raycast( ray, out hit ) )\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n             }\n"
+                },
+                {
+                    "date": 1625863832273,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n             Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n             RaycastHit hit;\n-            UnityEngine.Debug.Log(\"Hit\");\n+            UnityEngine.Debug.DrawRay(\"Hit\");\n             if( Physics.Raycast( ray, out hit ) )\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n             }\n"
+                },
+                {
+                    "date": 1625863844928,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n             Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n             RaycastHit hit;\n-            UnityEngine.Debug.DrawRay(\"Hit\");\n+            UnityEngine.Debug.DrawRay(Camera.main.transform.position, Camera.main.ScreenPointToRay(Input.mousePosition).direction);;\n             if( Physics.Raycast( ray, out hit ) )\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n             }\n"
+                },
+                {
+                    "date": 1625864019773,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n             Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n             RaycastHit hit;\n-            UnityEngine.Debug.DrawRay(Camera.main.transform.position, Camera.main.ScreenPointToRay(Input.mousePosition).direction);;\n+            UnityEngine.Debug.DrawRay(Vector3.zero, Camera.main.ScreenPointToRay(Input.mousePosition).direction);;\n             if( Physics.Raycast( ray, out hit ) )\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n             }\n"
+                },
+                {
+                    "date": 1625864110117,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,12 +12,10 @@\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-            Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );\n-            RaycastHit hit;\n-            UnityEngine.Debug.DrawRay(Vector3.zero, Camera.main.ScreenPointToRay(Input.mousePosition).direction);;\n-            if( Physics.Raycast( ray, out hit ) )\n+             RaycastHit2D hit = Physics2D.Raycast(new Vector2(Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position).x, Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position).y), Vector2.zero, 0);\n+            if( hit )\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n             }\n         }\n"
+                },
+                {
+                    "date": 1625864150875,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-             RaycastHit2D hit = Physics2D.Raycast(new Vector2(Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position).x, Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position).y), Vector2.zero, 0);\n+             RaycastHit2D hit = Physics2D.Raycast(new Vector2(checkPosition.x, checkPosition.y), Vector2.zero, 0);\n             if( hit )\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n             }\n"
+                },
+                {
+                    "date": 1625864208667,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-             RaycastHit2D hit = Physics2D.Raycast(new Vector2(checkPosition.x, checkPosition.y), Vector2.zero, 0);\n+            RaycastHit2D hit = Physics2D.Raycast(new Vector2(checkPosition.x, checkPosition.y), Vector2.zero, 0);\n             if( hit )\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n             }\n"
+                },
+                {
+                    "date": 1625867383585,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,11 +2,23 @@\n using System.Collections;\n using System.Collections.Generic;\n using UnityEngine;\n \n+public abstract class ICommand {\n+    public abstract void Execute();\n+}\n+\n+public class MoveCommand : ICommand {\n+    public void Execute() {\n+        UnityEngine.Debug.Log(\"MoveCommand.Execute\");\n+    }\n+}\n+\n public class GameManagerController : MonoBehaviour\n {\n     public GameObject player;\n+\n+    private Queue<Command> commands = new Queue();\n     \n     private void Update() {\n         if (Input.GetMouseButtonDown(0)) {\n             Vector3 mousePos = Input.mousePosition;\n@@ -16,8 +28,11 @@\n             RaycastHit2D hit = Physics2D.Raycast(new Vector2(checkPosition.x, checkPosition.y), Vector2.zero, 0);\n             if( hit )\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n+            } else {\n+                // Just move\n+                \n             }\n         }\n     }\n }\n"
+                },
+                {
+                    "date": 1625867456887,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n             } else {\n                 // Just move\n-                \n+                commands.Enqueue(new MoveCommand());\n             }\n         }\n     }\n }\n"
+                },
+                {
+                    "date": 1625867492732,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n     public abstract void Execute();\n }\n \n public class MoveCommand : ICommand {\n-    public void Execute() {\n+    public override void Execute() {\n         UnityEngine.Debug.Log(\"MoveCommand.Execute\");\n     }\n }\n \n"
+                },
+                {
+                    "date": 1625867505295,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n public class GameManagerController : MonoBehaviour\n {\n     public GameObject player;\n \n-    private Queue<Command> commands = new Queue();\n+    private Queue<ICommand> commands = new Queue();\n     \n     private void Update() {\n         if (Input.GetMouseButtonDown(0)) {\n             Vector3 mousePos = Input.mousePosition;\n"
+                },
+                {
+                    "date": 1625867525314,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n public class GameManagerController : MonoBehaviour\n {\n     public GameObject player;\n \n-    private Queue<ICommand> commands = new Queue();\n+    private Queue<ICommand> commands = new Queue<ICommand>();\n     \n     private void Update() {\n         if (Input.GetMouseButtonDown(0)) {\n             Vector3 mousePos = Input.mousePosition;\n"
+                },
+                {
+                    "date": 1625867585213,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,8 +31,9 @@\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n             } else {\n                 // Just move\n                 commands.Enqueue(new MoveCommand());\n+                commands.Dequeue().Execute();\n             }\n         }\n     }\n }\n"
+                },
+                {
+                    "date": 1625868256279,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,11 +7,9 @@\n     public abstract void Execute();\n }\n \n public class MoveCommand : ICommand {\n-    public override void Execute() {\n-        UnityEngine.Debug.Log(\"MoveCommand.Execute\");\n-    }\n+    public override void Execute();\n }\n \n public class GameManagerController : MonoBehaviour\n {\n@@ -32,8 +30,9 @@\n             } else {\n                 // Just move\n                 commands.Enqueue(new MoveCommand());\n                 commands.Dequeue().Execute();\n+                \n             }\n         }\n     }\n }\n"
+                },
+                {
+                    "date": 1625868289747,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,10 @@\n public abstract class ICommand {\n     public abstract void Execute();\n }\n \n-public class MoveCommand : ICommand {\n+public class MoveCommand : ICommand \n+{\n     public override void Execute();\n }\n \n public class GameManagerController : MonoBehaviour\n"
+                },
+                {
+                    "date": 1625868783321,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n public class GameManagerController : MonoBehaviour\n {\n     public GameObject player;\n \n-    private Queue<ICommand> commands = new Queue<ICommand>();\n+    private Quedue<ICommand> commands = new Queue<ICommand>();\n     \n     private void Update() {\n         if (Input.GetMouseButtonDown(0)) {\n             Vector3 mousePos = Input.mousePosition;\n"
+                },
+                {
+                    "date": 1625868793099,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n public class GameManagerController : MonoBehaviour\n {\n     public GameObject player;\n \n-    private Quedue<ICommand> commands = new Queue<ICommand>();\n+    private Queue<ICommand> commands = new Queue<ICommand>();\n     \n     private void Update() {\n         if (Input.GetMouseButtonDown(0)) {\n             Vector3 mousePos = Input.mousePosition;\n"
+                },
+                {
+                    "date": 1625868818837,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n }\n \n public class MoveCommand : ICommand \n {\n-    public override void Execute();\n+    \n }\n \n public class GameManagerController : MonoBehaviour\n {\n"
+                },
+                {
+                    "date": 1625868863252,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,11 @@\n }\n \n public class MoveCommand : ICommand \n {\n-    \n+    public override void Execute() {\n+        UnityEngine.Debug.Log(\"move\")\n+    }\n }\n \n public class GameManagerController : MonoBehaviour\n {\n"
+                }
+            ],
+            "date": 1625860764962,
+            "name": "Commit-0",
+            "content": "using System.Collections;\nusing System.Collections.Generic;\nusing UnityEngine;\n\npublic class GameManagerController : MonoBehaviour\n{\n    public GameObject player;\n}\n"
+        }
+    ]
+}

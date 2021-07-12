@@ -1,0 +1,82 @@
+{
+    "sourceFile": "Assets/Scripts/GameManager.cs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 16,
+            "patches": [
+                {
+                    "date": 1626030017050,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1626030048660,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,4 @@\n-\n using UnityEngine;\n \n public class GameManager: MonoBehaviour\n {\n"
+                },
+                {
+                    "date": 1626035113629,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,9 @@\n public class GameManager: MonoBehaviour\n {\n     public GameObject playerObject;\n \n+    [SerializeField]\n     private CommandProcessor commands = new CommandProcessor();\n \n     \n     private void Update() {\n"
+                },
+                {
+                    "date": 1626035168710,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n {\n     public GameObject playerObject;\n \n     [SerializeField]\n-    private CommandProcessor commands = new CommandProcessor();\n+    public CommandProcessor commands = new CommandProcessor();\n \n     \n     private void Update() {\n         if (Input.GetMouseButtonDown(0)) {\n"
+                },
+                {
+                    "date": 1626035200139,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n {\n     public GameObject playerObject;\n \n     [SerializeField]\n-    public CommandProcessor commands = new CommandProcessor();\n+    private CommandProcessor commands = new CommandProcessor();\n \n     \n     private void Update() {\n         if (Input.GetMouseButtonDown(0)) {\n"
+                },
+                {
+                    "date": 1626112756311,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,8 +17,10 @@\n             RaycastHit2D hit = Physics2D.Raycast(new Vector2(checkPosition.x, checkPosition.y), Vector2.zero, 0);\n             if( hit )\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n+                IInteractable interactableObject = hit.transform.gameObject.GetComponent<IInteractable>();\n+\n             } else {\n                 // Just move\n                 commands.Add(new MoveCommand(playerObject, checkPosition));\n             }\n"
+                },
+                {
+                    "date": 1626112831281,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n             RaycastHit2D hit = Physics2D.Raycast(new Vector2(checkPosition.x, checkPosition.y), Vector2.zero, 0);\n             if( hit )\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n-                IInteractable interactableObject = hit.transform.gameObject.GetComponent<IInteractable>();\n+                IInteractableController interactableObject = hit.transform.gameObject.GetComponent<IInteractableController>();\n \n             } else {\n                 // Just move\n                 commands.Add(new MoveCommand(playerObject, checkPosition));\n"
+                },
+                {
+                    "date": 1626112847781,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n             RaycastHit2D hit = Physics2D.Raycast(new Vector2(checkPosition.x, checkPosition.y), Vector2.zero, 0);\n             if( hit )\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n-                IInteractableController interactableObject = hit.transform.gameObject.GetComponent<IInteractableController>();\n+                IInteractableController interactableObject;\n \n             } else {\n                 // Just move\n                 commands.Add(new MoveCommand(playerObject, checkPosition));\n"
+                },
+                {
+                    "date": 1626112861854,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n             RaycastHit2D hit = Physics2D.Raycast(new Vector2(checkPosition.x, checkPosition.y), Vector2.zero, 0);\n             if( hit )\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n-                IInteractableController interactableObject;\n+                IInteractableController interactableObject = hit.transform.gameObject.GetComponent<IInteractableController>();\n \n             } else {\n                 // Just move\n                 commands.Add(new MoveCommand(playerObject, checkPosition));\n"
+                },
+                {
+                    "date": 1626112985325,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,11 +16,12 @@\n \n             RaycastHit2D hit = Physics2D.Raycast(new Vector2(checkPosition.x, checkPosition.y), Vector2.zero, 0);\n             if( hit )\n             {\n-                UnityEngine.Debug.Log( hit.transform.gameObject.name );\n+                \n                 IInteractableController interactableObject = hit.transform.gameObject.GetComponent<IInteractableController>();\n-\n+                Queue<ICommand> newCommands = interactableObject.GetCommands(playerObject);\n+                UnityEngine.Debug.Log( newCommands );\n             } else {\n                 // Just move\n                 commands.Add(new MoveCommand(playerObject, checkPosition));\n             }\n"
+                },
+                {
+                    "date": 1626112997359,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n using UnityEngine;\n+using System.Collections.Generic; \n \n public class GameManager: MonoBehaviour\n {\n     public GameObject playerObject;\n"
+                },
+                {
+                    "date": 1626113084091,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n             {\n                 \n                 IInteractableController interactableObject = hit.transform.gameObject.GetComponent<IInteractableController>();\n                 Queue<ICommand> newCommands = interactableObject.GetCommands(playerObject);\n-                UnityEngine.Debug.Log( newCommands );\n+                UnityEngine.Debug.Log( newCommands.Count );\n             } else {\n                 // Just move\n                 commands.Add(new MoveCommand(playerObject, checkPosition));\n             }\n"
+                },
+                {
+                    "date": 1626113121941,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,8 +21,9 @@\n                 \n                 IInteractableController interactableObject = hit.transform.gameObject.GetComponent<IInteractableController>();\n                 Queue<ICommand> newCommands = interactableObject.GetCommands(playerObject);\n                 UnityEngine.Debug.Log( newCommands.Count );\n+                commands.Add(newCommands);\n             } else {\n                 // Just move\n                 commands.Add(new MoveCommand(playerObject, checkPosition));\n             }\n"
+                },
+                {
+                    "date": 1626113553410,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,8 @@\n \n             RaycastHit2D hit = Physics2D.Raycast(new Vector2(checkPosition.x, checkPosition.y), Vector2.zero, 0);\n             if( hit )\n             {\n-                \n                 IInteractableController interactableObject = hit.transform.gameObject.GetComponent<IInteractableController>();\n                 Queue<ICommand> newCommands = interactableObject.GetCommands(playerObject);\n                 UnityEngine.Debug.Log( newCommands.Count );\n                 commands.Add(newCommands);\n"
+                },
+                {
+                    "date": 1626113570354,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n \n             RaycastHit2D hit = Physics2D.Raycast(new Vector2(checkPosition.x, checkPosition.y), Vector2.zero, 0);\n             if( hit )\n             {\n-                IInteractableController interactableObject = hit.transform.gameObject.GetComponent<IInteractableController>();\n+                InteractableController interactableObject = hit.transform.gameObject.GetComponent<InteractableController>();\n                 Queue<ICommand> newCommands = interactableObject.GetCommands(playerObject);\n                 UnityEngine.Debug.Log( newCommands.Count );\n                 commands.Add(newCommands);\n             } else {\n"
+                },
+                {
+                    "date": 1626113583694,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n \n             RaycastHit2D hit = Physics2D.Raycast(new Vector2(checkPosition.x, checkPosition.y), Vector2.zero, 0);\n             if( hit )\n             {\n-                InteractableController interactableObject = hit.transform.gameObject.GetComponent<InteractableController>();\n+                IInteractableController interactableObject = hit.transform.gameObject.GetComponent<IInteractableController>();\n                 Queue<ICommand> newCommands = interactableObject.GetCommands(playerObject);\n                 UnityEngine.Debug.Log( newCommands.Count );\n                 commands.Add(newCommands);\n             } else {\n"
+                },
+                {
+                    "date": 1626113742954,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,11 +18,13 @@\n             RaycastHit2D hit = Physics2D.Raycast(new Vector2(checkPosition.x, checkPosition.y), Vector2.zero, 0);\n             if( hit )\n             {\n                 IInteractableController interactableObject = hit.transform.gameObject.GetComponent<IInteractableController>();\n-                Queue<ICommand> newCommands = interactableObject.GetCommands(playerObject);\n-                UnityEngine.Debug.Log( newCommands.Count );\n-                commands.Add(newCommands);\n+                if (interactableObject != null) {\n+                    commands.Add(interactableObject.GetCommands(playerObject));\n+                } else {\n+                    UnityEngine.Debug.LogError(\"Missing IInteractableController on object: \" + hit.transform.gameObject.GetType().Name);\n+                }\n             } else {\n                 // Just move\n                 commands.Add(new MoveCommand(playerObject, checkPosition));\n             }\n"
+                }
+            ],
+            "date": 1626030017050,
+            "name": "Commit-0",
+            "content": "\nusing UnityEngine;\n\npublic class GameManager: MonoBehaviour\n{\n    public GameObject playerObject;\n\n    private CommandProcessor commands = new CommandProcessor();\n\n    \n    private void Update() {\n        if (Input.GetMouseButtonDown(0)) {\n            Vector3 mousePos = Input.mousePosition;\n            mousePos.z = Camera.main.nearClipPlane;\n            Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n\n            RaycastHit2D hit = Physics2D.Raycast(new Vector2(checkPosition.x, checkPosition.y), Vector2.zero, 0);\n            if( hit )\n            {\n                UnityEngine.Debug.Log( hit.transform.gameObject.name );\n            } else {\n                // Just move\n                commands.Add(new MoveCommand(playerObject, checkPosition));\n            }\n        }\n    }\n}\n"
+        }
+    ]
+}

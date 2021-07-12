@@ -1,0 +1,22 @@
+{
+    "sourceFile": "Assets/Scripts/commands/CommandProcessor.cs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1626029761825,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1626029787162,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,12 +1,10 @@\n-namespace StarPotato.Assets.Scripts.commands\n+\n+public class CommandProcessor\n {\n-    public class CommandProcessor\n-    {\n-        private Queue<ICommand> commands = new Queue<ICommand>();\n+    private Queue<ICommand> commands = new Queue<ICommand>();\n \n-        public void Add(ICommand command) {\n-            UnityEngine.Debug.Log(\"Adding: \" + command.GetType().Name);\n-            command.Execute();\n-        }\n+    public void Add(ICommand command) {\n+        UnityEngine.Debug.Log(\"Adding: \" + command.GetType().Name);\n+        command.Execute();\n     }\n }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1626029761825,
+            "name": "Commit-0",
+            "content": "namespace StarPotato.Assets.Scripts.commands\n{\n    public class CommandProcessor\n    {\n        private Queue<ICommand> commands = new Queue<ICommand>();\n\n        public void Add(ICommand command) {\n            UnityEngine.Debug.Log(\"Adding: \" + command.GetType().Name);\n            command.Execute();\n        }\n    }\n}"
+        }
+    ]
+}

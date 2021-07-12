@@ -1,0 +1,98 @@
+{
+    "sourceFile": "Assets/Scripts/PickUpCommand.cs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 20,
+            "patches": [
+                {
+                    "date": 1626114840592,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1626114900021,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,8 @@\n \n public class PickUp : ICommand\n {\n     private GameObject targetWho;\n-    private Vector3 targetWhere;\n \n     public PickUpCommand(GameObject who)\n     {\n         targetWho = who;\n"
+                },
+                {
+                    "date": 1626114919079,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n using System.Collections;\n using System.Timers;\n using UnityEngine;\n \n-public class PickUp : ICommand\n+public class PickUpCommand : ICommand\n {\n     private GameObject targetWho;\n \n     public PickUpCommand(GameObject who)\n"
+                },
+                {
+                    "date": 1626115027495,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n \n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"pickup: \" + targetWho.GetType());\n         \n-        targetWho.Destroy();\n+        \n \n         OnComplete();\n     }\n \n"
+                },
+                {
+                    "date": 1626123719570,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n \n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"pickup: \" + targetWho.GetType());\n         \n-        \n+        Destroy(targetWho);\n \n         OnComplete();\n     }\n \n"
+                },
+                {
+                    "date": 1626123890529,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n \n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"pickup: \" + targetWho.GetType());\n         \n-        Destroy(targetWho);\n+        UnityEngine.Object.Destroy(targetWho);\n \n         OnComplete();\n     }\n \n"
+                },
+                {
+                    "date": 1626125059616,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,19 +4,21 @@\n using UnityEngine;\n \n public class PickUpCommand : ICommand\n {\n-    private GameObject targetWho;\n+    private GameObject itemObject;\n+    private GameObject playerObject;\n \n-    public PickUpCommand(GameObject who)\n+    public PickUpCommand(GameObject player, GameObject itemOnScene)\n     {\n-        targetWho = who;\n+        playerObject = player;\n+        itemObject = itemOnScene;\n     }\n \n     public void Execute(Action OnComplete) {\n-        UnityEngine.Debug.Log(\"pickup: \" + targetWho.GetType());\n+        UnityEngine.Debug.Log(\"pickup: \" + itemObject.GetType());\n         \n-        UnityEngine.Object.Destroy(targetWho);\n+        UnityEngine.Object.Destroy(itemObject);\n \n         OnComplete();\n     }\n \n"
+                },
+                {
+                    "date": 1626126085789,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,8 +16,10 @@\n \n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"pickup: \" + itemObject.GetType());\n         \n+        playerObject.GetComponent<Animator>().SetTrigger(\"PickUp\");\n+\n         UnityEngine.Object.Destroy(itemObject);\n \n         OnComplete();\n     }\n"
+                },
+                {
+                    "date": 1626126267063,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,8 +16,9 @@\n \n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"pickup: \" + itemObject.GetType());\n         \n+        playerObject.GetComponent<Animator>().Enabled = true;\n         playerObject.GetComponent<Animator>().SetTrigger(\"PickUp\");\n \n         UnityEngine.Object.Destroy(itemObject);\n \n"
+                },
+                {
+                    "date": 1626126280379,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n \n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"pickup: \" + itemObject.GetType());\n         \n-        playerObject.GetComponent<Animator>().Enabled = true;\n+        playerObject.GetComponent<Animator>().enabled = true;\n         playerObject.GetComponent<Animator>().SetTrigger(\"PickUp\");\n \n         UnityEngine.Object.Destroy(itemObject);\n \n"
+                },
+                {
+                    "date": 1626126943179,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,8 @@\n \n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"pickup: \" + itemObject.GetType());\n         \n-        playerObject.GetComponent<Animator>().enabled = true;\n         playerObject.GetComponent<Animator>().SetTrigger(\"PickUp\");\n \n         UnityEngine.Object.Destroy(itemObject);\n \n"
+                },
+                {
+                    "date": 1626128040716,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,8 +17,9 @@\n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"pickup: \" + itemObject.GetType());\n         \n         playerObject.GetComponent<Animator>().SetTrigger(\"PickUp\");\n+        playerObject.GetComponent<Animator>()\n \n         UnityEngine.Object.Destroy(itemObject);\n \n         OnComplete();\n"
+                },
+                {
+                    "date": 1626128049351,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"pickup: \" + itemObject.GetType());\n         \n         playerObject.GetComponent<Animator>().SetTrigger(\"PickUp\");\n-        playerObject.GetComponent<Animator>()\n+        playerObject.GetComponent<PlayerAnimationEventsController>().On\n \n         UnityEngine.Object.Destroy(itemObject);\n \n         OnComplete();\n"
+                },
+                {
+                    "date": 1626128070249,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,12 +17,10 @@\n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"pickup: \" + itemObject.GetType());\n         \n         playerObject.GetComponent<Animator>().SetTrigger(\"PickUp\");\n-        playerObject.GetComponent<PlayerAnimationEventsController>().On\n+        playerObject.GetComponent<PlayerAnimationEventsController>().OnAnimationComplete += OnComplete;\n \n         UnityEngine.Object.Destroy(itemObject);\n-\n-        OnComplete();\n     }\n \n }\n"
+                },
+                {
+                    "date": 1626128169837,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"pickup: \" + itemObject.GetType());\n         \n         playerObject.GetComponent<Animator>().SetTrigger(\"PickUp\");\n-        playerObject.GetComponent<PlayerAnimationEventsController>().OnAnimationComplete += OnComplete;\n+        playerObject.GetComponent<PlayerAnimationEventsController>().OnDCallback += OnComplete;\n \n         UnityEngine.Object.Destroy(itemObject);\n     }\n \n"
+                },
+                {
+                    "date": 1626128325340,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,5 +22,11 @@\n \n         UnityEngine.Object.Destroy(itemObject);\n     }\n \n+    private void OnCommandComplete() {\n+        UnityEngine.Debug.Log(\"Command completed\");\n+\n+        commands.Dequeue();\n+        ExecuteNextCommand();\n+    }\n }\n"
+                },
+                {
+                    "date": 1626128392734,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,11 @@\n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"pickup: \" + itemObject.GetType());\n         \n         playerObject.GetComponent<Animator>().SetTrigger(\"PickUp\");\n-        playerObject.GetComponent<PlayerAnimationEventsController>().OnDCallback += OnComplete;\n+        playerObject.GetComponent<PlayerAnimationEventsController>().OnDCallback += => {\n+            OnComplete();\n+        };\n \n         UnityEngine.Object.Destroy(itemObject);\n     }\n \n"
+                },
+                {
+                    "date": 1626128451993,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,13 +17,14 @@\n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"pickup: \" + itemObject.GetType());\n         \n         playerObject.GetComponent<Animator>().SetTrigger(\"PickUp\");\n-        playerObject.GetComponent<PlayerAnimationEventsController>().OnDCallback += => {\n+        playerObject.GetComponent<PlayerAnimationEventsController>().OnDCallback += () => {\n+            UnityEngine.Object.Destroy(itemObject);\n             OnComplete();\n         };\n \n-        UnityEngine.Object.Destroy(itemObject);\n+        \n     }\n \n     private void OnCommandComplete() {\n         UnityEngine.Debug.Log(\"Command completed\");\n"
+                },
+                {
+                    "date": 1626128476055,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,12 +24,5 @@\n         };\n \n         \n     }\n-\n-    private void OnCommandComplete() {\n-        UnityEngine.Debug.Log(\"Command completed\");\n-\n-        commands.Dequeue();\n-        ExecuteNextCommand();\n-    }\n }\n"
+                },
+                {
+                    "date": 1626128509028,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"pickup: \" + itemObject.GetType());\n         \n         playerObject.GetComponent<Animator>().SetTrigger(\"PickUp\");\n-        playerObject.GetComponent<PlayerAnimationEventsController>().OnDCallback += () => {\n+        playerObject.GetComponent<PlayerAnimationEventsController>().OnAnimationComplete += () => {\n             UnityEngine.Object.Destroy(itemObject);\n             OnComplete();\n         };\n \n"
+                },
+                {
+                    "date": 1626128668836,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n     public void Execute(Action OnComplete) {\n         UnityEngine.Debug.Log(\"pickup: \" + itemObject.GetType());\n         \n         playerObject.GetComponent<Animator>().SetTrigger(\"PickUp\");\n-        playerObject.GetComponent<PlayerAnimationEventsController>().OnAnimationComplete += () => {\n+        playerObject.GetComponent<AnimationEventsController>().OnAnimationComplete += () => {\n             UnityEngine.Object.Destroy(itemObject);\n             OnComplete();\n         };\n \n"
+                }
+            ],
+            "date": 1626114840592,
+            "name": "Commit-0",
+            "content": "using System;\nusing System.Collections;\nusing System.Timers;\nusing UnityEngine;\n\npublic class PickUp : ICommand\n{\n    private GameObject targetWho;\n    private Vector3 targetWhere;\n\n    public PickUpCommand(GameObject who)\n    {\n        targetWho = who;\n    }\n\n    public void Execute(Action OnComplete) {\n        UnityEngine.Debug.Log(\"pickup: \" + targetWho.GetType());\n        \n        targetWho.Destroy();\n\n        OnComplete();\n    }\n\n}\n"
+        }
+    ]
+}

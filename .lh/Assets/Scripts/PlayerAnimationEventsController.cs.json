@@ -1,0 +1,50 @@
+{
+    "sourceFile": "Assets/Scripts/PlayerAnimationEventsController.cs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 8,
+            "patches": [
+                {
+                    "date": 1626127503758,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1626127987993,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,10 @@\n using UnityEngine;\n-using System.Collections;\n+using UnityEngine.Events;\n \n-\n+[System.Serializable]\n+public class UnityAnimationEvent : UnityEvent<string>{};\n+[RequireComponent(typeof(Animator))]\n public class PlayerAnimationEventsController : MonoBehaviour \n {\n     public void PrintEvent(string s) \n     {\n"
+                },
+                {
+                    "date": 1626127993914,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,42 @@\n public class UnityAnimationEvent : UnityEvent<string>{};\n [RequireComponent(typeof(Animator))]\n public class PlayerAnimationEventsController : MonoBehaviour \n {\n-    public void PrintEvent(string s) \n+public UnityAnimationEvent OnAnimationStart;\n+    public UnityAnimationEvent OnAnimationComplete;\n+    \n+    Animator animator;\n+    \n+    void Awake()\n     {\n-        Debug.Log(\"PrintEvent: \" + s + \" called at: \" + Time.time);\n+        animator = GetComponent<Animator>();\n+        for(int i=0; i<animator.runtimeAnimatorController.animationClips.Length; i++)\n+        {\n+            AnimationClip clip = animator.runtimeAnimatorController.animationClips[i];\n+            \n+            AnimationEvent animationStartEvent = new AnimationEvent();\n+            animationStartEvent.time = 0;\n+            animationStartEvent.functionName = \"AnimationStartHandler\";\n+            animationStartEvent.stringParameter = clip.name;\n+            \n+            AnimationEvent animationEndEvent = new AnimationEvent();\n+            animationEndEvent.time = clip.length;\n+            animationEndEvent.functionName = \"AnimationCompleteHandler\";\n+            animationEndEvent.stringParameter = clip.name;\n+            \n+            clip.AddEvent(animationStartEvent);\n+            clip.AddEvent(animationEndEvent);\n+        }\n     }\n+\n+    public void AnimationStartHandler(string name)\n+    {\n+        Debug.Log($\"{name} animation start.\");\n+        OnAnimationStart?.Invoke(name);\n+    }\n+    public void AnimationCompleteHandler(string name)\n+    {\n+        Debug.Log($\"{name} animation complete.\");\n+        OnAnimationComplete?.Invoke(name);\n+    }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626128031396,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n public class UnityAnimationEvent : UnityEvent<string>{};\n [RequireComponent(typeof(Animator))]\n public class PlayerAnimationEventsController : MonoBehaviour \n {\n-public UnityAnimationEvent OnAnimationStart;\n+    public UnityAnimationEvent OnAnimationStart;\n     public UnityAnimationEvent OnAnimationComplete;\n     \n     Animator animator;\n     \n"
+                },
+                {
+                    "date": 1626128165072,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,9 @@\n public class PlayerAnimationEventsController : MonoBehaviour \n {\n     public UnityAnimationEvent OnAnimationStart;\n     public UnityAnimationEvent OnAnimationComplete;\n+    public Action OnDCallback;\n     \n     Animator animator;\n     \n     void Awake()\n@@ -41,6 +42,7 @@\n     public void AnimationCompleteHandler(string name)\n     {\n         Debug.Log($\"{name} animation complete.\");\n         OnAnimationComplete?.Invoke(name);\n+        OnDCallback();\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626128192280,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n using UnityEngine;\n using UnityEngine.Events;\n+using System;\n \n [System.Serializable]\n public class UnityAnimationEvent : UnityEvent<string>{};\n [RequireComponent(typeof(Animator))]\n"
+                },
+                {
+                    "date": 1626128557267,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,11 +6,10 @@\n public class UnityAnimationEvent : UnityEvent<string>{};\n [RequireComponent(typeof(Animator))]\n public class PlayerAnimationEventsController : MonoBehaviour \n {\n-    public UnityAnimationEvent OnAnimationStart;\n-    public UnityAnimationEvent OnAnimationComplete;\n-    public Action OnDCallback;\n+    public Action OnAnimationStart;\n+    public Action OnAnimationComplete;\n     \n     Animator animator;\n     \n     void Awake()\n@@ -37,13 +36,12 @@\n \n     public void AnimationStartHandler(string name)\n     {\n         Debug.Log($\"{name} animation start.\");\n-        OnAnimationStart?.Invoke(name);\n+        OnAnimationStart();\n     }\n     public void AnimationCompleteHandler(string name)\n     {\n         Debug.Log($\"{name} animation complete.\");\n-        OnAnimationComplete?.Invoke(name);\n-        OnDCallback();\n+        OnAnimationComplete();\n     }\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1626128608320,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,10 +6,10 @@\n public class UnityAnimationEvent : UnityEvent<string>{};\n [RequireComponent(typeof(Animator))]\n public class PlayerAnimationEventsController : MonoBehaviour \n {\n-    public Action OnAnimationStart;\n-    public Action OnAnimationComplete;\n+    public Action OnAnimationStart = delegate {};\n+    public Action OnAnimationComplete = delegate {};\n     \n     Animator animator;\n     \n     void Awake()\n"
+                },
+                {
+                    "date": 1626128654499,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n [System.Serializable]\n public class UnityAnimationEvent : UnityEvent<string>{};\n [RequireComponent(typeof(Animator))]\n-public class PlayerAnimationEventsController : MonoBehaviour \n+public class AnimationEventsController : MonoBehaviour \n {\n     public Action OnAnimationStart = delegate {};\n     public Action OnAnimationComplete = delegate {};\n     \n"
+                }
+            ],
+            "date": 1626127503758,
+            "name": "Commit-0",
+            "content": "using UnityEngine;\nusing System.Collections;\n\n\npublic class PlayerAnimationEventsController : MonoBehaviour \n{\n    public void PrintEvent(string s) \n    {\n        Debug.Log(\"PrintEvent: \" + s + \" called at: \" + Time.time);\n    }\n}"
+        }
+    ]
+}

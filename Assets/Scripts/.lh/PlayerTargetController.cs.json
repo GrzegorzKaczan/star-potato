@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1625695307485,
@@ -16,6 +16,26 @@
                 {
                     "date": 1625695443852,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n using System.Collections;\n using System.Collections.Generic;\n using UnityEngine;\n \n-public class PlayerController : MonoBehaviour\n+public class PlayerTargetController : MonoBehaviour\n {\n \n     void Update()\n     {\n"
+                },
+                {
+                    "date": 1625862552653,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,11 @@\n     {\n         if (Input.GetMouseButtonDown(0)) {\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n-            transform.position = Camera.main.ScreenToWorldPoint(mousePos);\n+            Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n+\n+            Physics.CheckBox()\n         }\n     }\n \n }\n"
+                },
+                {
+                    "date": 1625862639646,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-            Physics.CheckBox()\n+            Physics.CheckBox(checkPosition, 1, 1, 1, false);\n         }\n     }\n \n }\n"
+                },
+                {
+                    "date": 1625862710846,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-            Physics.CheckBox(checkPosition, 1, 1, 1, false);\n+            Physics.OverlapBox(checkPosition, 1, Quaternion.identity, null);\n         }\n     }\n \n }\n"
+                },
+                {
+                    "date": 1625862723370,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n             Vector3 mousePos = Input.mousePosition;\n             mousePos.z = Camera.main.nearClipPlane;\n             Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n \n-            Physics.OverlapBox(checkPosition, 1, Quaternion.identity, null);\n+            Collider[] hitColliders = Physics.OverlapBox(checkPosition, 1, Quaternion.identity, null);\n         }\n     }\n \n }\n"
+                },
+                {
+                    "date": 1625862754187,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,14 +6,8 @@\n {\n \n     void Update()\n     {\n-        if (Input.GetMouseButtonDown(0)) {\n-            Vector3 mousePos = Input.mousePosition;\n-            mousePos.z = Camera.main.nearClipPlane;\n-            Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n-\n-            Collider[] hitColliders = Physics.OverlapBox(checkPosition, 1, Quaternion.identity, null);\n-        }\n+        \n     }\n \n }\n"
                 }
             ],
             "date": 1625695307485,

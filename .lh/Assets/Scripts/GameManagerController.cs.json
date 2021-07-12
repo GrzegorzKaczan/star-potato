@@ -1,0 +1,82 @@
+{
+    "sourceFile": "Assets/Scripts/GameManagerController.cs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 16,
+            "patches": [
+                {
+                    "date": 1625869615686,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1625869680607,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,10 +17,10 @@\n public class CommandProcessor\n {\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n-    public void Add() {\n-        \n+    public void Add(ICommand command) {\n+        UnityEngine.Debug.Log( \"Adding\", command);\n     }\n }\n \n public class GameManagerController : MonoBehaviour\n@@ -41,11 +41,9 @@\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n             } else {\n                 // Just move\n-                commands.Enqueue(new MoveCommand());\n-                commands.Dequeue().Execute();\n-                \n+                commands.Add(new MoveCommand());\n             }\n         }\n     }\n }\n"
+                },
+                {
+                    "date": 1625869729897,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n {\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n-        UnityEngine.Debug.Log( \"Adding\", command);\n+        UnityEngine.Debug.Log( \"Adding\", typeof command);\n     }\n }\n \n public class GameManagerController : MonoBehaviour\n"
+                },
+                {
+                    "date": 1625869760089,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n {\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n-        UnityEngine.Debug.Log( \"Adding\", typeof command);\n+        UnityEngine.Debug.Log( \"Adding\", command.GetType().Name);\n     }\n }\n \n public class GameManagerController : MonoBehaviour\n"
+                },
+                {
+                    "date": 1625869774292,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n {\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n-        UnityEngine.Debug.Log( \"Adding\", command.GetType().Name);\n+        UnityEngine.Debug.Log( \"Adding\" + command.GetType().Name);\n     }\n }\n \n public class GameManagerController : MonoBehaviour\n"
+                },
+                {
+                    "date": 1625869790533,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n {\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n-        UnityEngine.Debug.Log( \"Adding\" + command.GetType().Name);\n+        UnityEngine.Debug.Log( \"Adding: \" + command.GetType().Name);\n     }\n }\n \n public class GameManagerController : MonoBehaviour\n"
+                },
+                {
+                    "date": 1625870339816,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n {\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n-        UnityEngine.Debug.Log( \"Adding: \" + command.GetType().Name);\n+        UnityEngine.Debug.Log(\"Adding: \" + command.GetType().Name);\n     }\n }\n \n public class GameManagerController : MonoBehaviour\n"
+                },
+                {
+                    "date": 1625939101224,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,10 +8,19 @@\n }\n \n public class MoveCommand : ICommand \n {\n+    private GameObject targetWho;\n+    private Vector3 targetWhere;\n+\n+    public MoveCommand(GameObject who, Vector3 where)\n+    {\n+        targetWho = who;\n+        targetWhere = where;\n+    }\n+\n     public override void Execute() {\n-        UnityEngine.Debug.Log(\"move\");\n+        UnityEngine.Debug.Log(\"move: \" + targetWho.GetType()));\n     }\n }\n \n public class CommandProcessor\n@@ -19,8 +28,9 @@\n     private Queue<ICommand> commands = new Queue<ICommand>();\n \n     public void Add(ICommand command) {\n         UnityEngine.Debug.Log(\"Adding: \" + command.GetType().Name);\n+        command.Execute();\n     }\n }\n \n public class GameManagerController : MonoBehaviour\n@@ -41,9 +51,9 @@\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n             } else {\n                 // Just move\n-                commands.Add(new MoveCommand());\n+                commands.Add(new MoveCommand(player, checkPosition));\n             }\n         }\n     }\n }\n"
+                },
+                {
+                    "date": 1625939124621,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n         targetWhere = where;\n     }\n \n     public override void Execute() {\n-        UnityEngine.Debug.Log(\"move: \" + targetWho.GetType()));\n+        UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n     }\n }\n \n public class CommandProcessor\n"
+                },
+                {
+                    "date": 1625939171847,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,9 @@\n     }\n \n     public override void Execute() {\n         UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n+        targetWho.transform.position = targetWhere;\n     }\n }\n \n public class CommandProcessor\n"
+                },
+                {
+                    "date": 1625994372334,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,9 +35,9 @@\n }\n \n public class GameManagerController : MonoBehaviour\n {\n-    public GameObject player;\n+    public GameObject playerObject;\n \n     private CommandProcessor commands = new CommandProcessor();\n \n     \n@@ -52,9 +52,9 @@\n             {\n                 UnityEngine.Debug.Log( hit.transform.gameObject.name );\n             } else {\n                 // Just move\n-                commands.Add(new MoveCommand(player, checkPosition));\n+                commands.Add(new MoveCommand(playerObject, checkPosition));\n             }\n         }\n     }\n }\n"
+                },
+                {
+                    "date": 1626029745470,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,39 +2,11 @@\n using System.Collections;\n using System.Collections.Generic;\n using UnityEngine;\n \n-public abstract class ICommand {\n-    public abstract void Execute();\n-}\n \n-public class MoveCommand : ICommand \n-{\n-    private GameObject targetWho;\n-    private Vector3 targetWhere;\n \n-    public MoveCommand(GameObject who, Vector3 where)\n-    {\n-        targetWho = who;\n-        targetWhere = where;\n-    }\n \n-    public override void Execute() {\n-        UnityEngine.Debug.Log(\"move: \" + targetWho.GetType());\n-        targetWho.transform.position = targetWhere;\n-    }\n-}\n-\n-public class CommandProcessor\n-{\n-    private Queue<ICommand> commands = new Queue<ICommand>();\n-\n-    public void Add(ICommand command) {\n-        UnityEngine.Debug.Log(\"Adding: \" + command.GetType().Name);\n-        command.Execute();\n-    }\n-}\n-\n public class GameManagerController : MonoBehaviour\n {\n     public GameObject playerObject;\n \n"
+                },
+                {
+                    "date": 1626029781132,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,12 +1,12 @@\n using System.Diagnostics;\n using System.Collections;\n using System.Collections.Generic;\n using UnityEngine;\n+using \n \n \n \n-\n public class GameManagerController : MonoBehaviour\n {\n     public GameObject playerObject;\n \n"
+                },
+                {
+                    "date": 1626029794564,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,12 +1,10 @@\n using System.Diagnostics;\n using System.Collections;\n using System.Collections.Generic;\n using UnityEngine;\n-using \n \n \n-\n public class GameManagerController : MonoBehaviour\n {\n     public GameObject playerObject;\n \n"
+                },
+                {
+                    "date": 1626029835371,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,10 +1,10 @@\n using System.Diagnostics;\n using System.Collections;\n using System.Collections.Generic;\n using UnityEngine;\n+using StartPotato;\n \n-\n public class GameManagerController : MonoBehaviour\n {\n     public GameObject playerObject;\n \n"
+                },
+                {
+                    "date": 1626029848738,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,8 @@\n using System.Diagnostics;\n using System.Collections;\n using System.Collections.Generic;\n using UnityEngine;\n-using StartPotato;\n \n public class GameManagerController : MonoBehaviour\n {\n     public GameObject playerObject;\n"
+                },
+                {
+                    "date": 1626029871552,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n using System.Collections;\n using System.Collections.Generic;\n using UnityEngine;\n \n-public class GameManagerController : MonoBehaviour\n+public class GameManager: MonoBehaviour\n {\n     public GameObject playerObject;\n \n     private CommandProcessor commands = new CommandProcessor();\n"
+                }
+            ],
+            "date": 1625869615686,
+            "name": "Commit-0",
+            "content": "using System.Diagnostics;\nusing System.Collections;\nusing System.Collections.Generic;\nusing UnityEngine;\n\npublic abstract class ICommand {\n    public abstract void Execute();\n}\n\npublic class MoveCommand : ICommand \n{\n    public override void Execute() {\n        UnityEngine.Debug.Log(\"move\");\n    }\n}\n\npublic class CommandProcessor\n{\n    private Queue<ICommand> commands = new Queue<ICommand>();\n\n    public void Add() {\n        \n    }\n}\n\npublic class GameManagerController : MonoBehaviour\n{\n    public GameObject player;\n\n    private CommandProcessor commands = new CommandProcessor();\n\n    \n    private void Update() {\n        if (Input.GetMouseButtonDown(0)) {\n            Vector3 mousePos = Input.mousePosition;\n            mousePos.z = Camera.main.nearClipPlane;\n            Vector3 checkPosition = Camera.main.ScreenToWorldPoint(mousePos);\n\n            RaycastHit2D hit = Physics2D.Raycast(new Vector2(checkPosition.x, checkPosition.y), Vector2.zero, 0);\n            if( hit )\n            {\n                UnityEngine.Debug.Log( hit.transform.gameObject.name );\n            } else {\n                // Just move\n                commands.Enqueue(new MoveCommand());\n                commands.Dequeue().Execute();\n                \n            }\n        }\n    }\n}\n"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "Assets/Scripts/commands/ICommand.cs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1626029716045,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1626029716045,
+            "name": "Commit-0",
+            "content": "namespace StarPotato.Assets.Scripts.commands\n{\n    public interface ICommand\n    {\n         public void Execute();\n    }\n}"
+        }
+    ]
+}

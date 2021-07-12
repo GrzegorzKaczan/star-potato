@@ -1,0 +1,58 @@
+{
+    "sourceFile": "Assets/Scripts/ICommand.cs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 10,
+            "patches": [
+                {
+                    "date": 1626029988759,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1626030374324,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n \n public interface ICommand\n {\n-        public void Execute();\n+    public void Execute();\n }\n"
+                },
+                {
+                    "date": 1626030603079,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n+using UnityEngine;\n \n public interface ICommand\n {\n-    public void Execute();\n+    public void Execute(Delegate doneCallback);\n }\n"
+                },
+                {
+                    "date": 1626030625206,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n using UnityEngine;\n+using System.;\n \n public interface ICommand\n {\n     public void Execute(Delegate doneCallback);\n"
+                },
+                {
+                    "date": 1626030761415,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n using UnityEngine;\n-using System.;\n+using System;\n \n public interface ICommand\n {\n     public void Execute(Delegate doneCallback);\n"
+                },
+                {
+                    "date": 1626031137899,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,6 +2,6 @@\n using System;\n \n public interface ICommand\n {\n-    public void Execute(Delegate doneCallback);\n+    public void Execute(Action<Boolean> doneCallback);\n }\n"
+                },
+                {
+                    "date": 1626031793019,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,6 +2,6 @@\n using System;\n \n public interface ICommand\n {\n-    public void Execute(Action<Boolean> doneCallback);\n+    public void Execute(Action doneCallback);\n }\n"
+                },
+                {
+                    "date": 1626035435070,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,17 @@\n using UnityEngine;\n using System;\n \n-public interface ICommand\n+public abstract class ICommand\n {\n-    public void Execute(Action doneCallback);\n+    public Boolean isExecuting = false;\n+    public void Execute(Action doneCallback) {\n+        isExecuting = true;\n+        UnityEngine.Debug.Log(\"ICommand.Execute\");\n+        doneCallback += OnComplete;\n+    }\n+\n+    private void OnComplete() {\n+        UnityEngine.Debug.Log(\"ICommand.OnComplete\");\n+        isExecuting = false;\n+    }\n }\n"
+                },
+                {
+                    "date": 1626035709146,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n \n public abstract class ICommand\n {\n     public Boolean isExecuting = false;\n-    public void Execute(Action doneCallback) {\n+    public virtual void Execute(Action doneCallback) {\n         isExecuting = true;\n         UnityEngine.Debug.Log(\"ICommand.Execute\");\n         doneCallback += OnComplete;\n     }\n"
+                },
+                {
+                    "date": 1626036313256,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n using UnityEngine;\n using System;\n \n-public abstract class ICommand\n+public abstract class Command\n {\n     public Boolean isExecuting = false;\n     public virtual void Execute(Action doneCallback) {\n         isExecuting = true;\n"
+                },
+                {
+                    "date": 1626036380873,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,17 +1,7 @@\n using UnityEngine;\n using System;\n \n-public abstract class Command\n+public interface ICommand\n {\n-    public Boolean isExecuting = false;\n-    public virtual void Execute(Action doneCallback) {\n-        isExecuting = true;\n-        UnityEngine.Debug.Log(\"ICommand.Execute\");\n-        doneCallback += OnComplete;\n-    }\n-\n-    private void OnComplete() {\n-        UnityEngine.Debug.Log(\"ICommand.OnComplete\");\n-        isExecuting = false;\n-    }\n+    public void Execute(Action doneCallback);\n }\n"
+                }
+            ],
+            "date": 1626029988759,
+            "name": "Commit-0",
+            "content": "\npublic interface ICommand\n{\n        public void Execute();\n}\n"
+        }
+    ]
+}

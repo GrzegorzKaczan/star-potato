@@ -1,0 +1,182 @@
+{
+    "sourceFile": "Assets/Scripts/MoveController.cs",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 41,
+            "patches": [
+                {
+                    "date": 1626033195810,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1626033228561,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,20 @@\n+using UnityEngine;\n+using System;\n \n public class MoveController\n {\n-    \n+\n+    public void Update() {\n+        StartCoroutine()\n+    }\n+    IEnumerator MoveFromTo(Transform objectToMove, Vector3 a, Vector3 b, float speed) {\n+         float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n+         float t = 0;\n+         while (t <= 1.0f) {\n+             t += step; // Goes from 0 to 1, incrementing by step each time\n+             objectToMove.position = Vector3.Lerp(a, b, t); // Move objectToMove closer to b\n+             yield return new WaitForFixedUpdate();         // Leave the routine and return here in the next frame\n+         }\n+         objectToMove.position = b;\n+    }\n }\n"
+                },
+                {
+                    "date": 1626033242383,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n public class MoveController\n {\n \n     public void Update() {\n-        StartCoroutine()\n+        StartCoroutine(MoveFromTo(targetWho.transform, targetWho.transform.position, targetWhere, 1f));\n     }\n     IEnumerator MoveFromTo(Transform objectToMove, Vector3 a, Vector3 b, float speed) {\n          float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n          float t = 0;\n"
+                },
+                {
+                    "date": 1626033307040,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,11 @@\n public class MoveController\n {\n \n     public void Update() {\n-        StartCoroutine(MoveFromTo(targetWho.transform, targetWho.transform.position, targetWhere, 1f));\n+        if (targetWho.transform.position != targetWhere) {\n+            StartCoroutine(MoveFromTo(targetWho.transform, targetWho.transform.position, targetWhere, 1f));\n+        }\n     }\n     IEnumerator MoveFromTo(Transform objectToMove, Vector3 a, Vector3 b, float speed) {\n          float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n          float t = 0;\n"
+                },
+                {
+                    "date": 1626033357752,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,12 +1,13 @@\n using UnityEngine;\n-using System;\n+using System.Timers;\n+using System.Collections;\n \n public class MoveController\n {\n \n     public void Update() {\n-        if (targetWho.transform.position != targetWhere) {\n+        if (transform.position != targetWhere) {\n             StartCoroutine(MoveFromTo(targetWho.transform, targetWho.transform.position, targetWhere, 1f));\n         }\n     }\n     IEnumerator MoveFromTo(Transform objectToMove, Vector3 a, Vector3 b, float speed) {\n"
+                },
+                {
+                    "date": 1626033462562,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,17 +1,18 @@\n using UnityEngine;\n using System.Timers;\n using System.Collections;\n \n-public class MoveController\n+public class MoveController : MonoBehaviour\n {\n+    private Vector3 target;\n \n     public void Update() {\n-        if (transform.position != targetWhere) {\n-            StartCoroutine(MoveFromTo(targetWho.transform, targetWho.transform.position, targetWhere, 1f));\n+        if (transform.position != target) {\n+            StartCoroutine(MoveFromTo(transform, transform.position, target, 1f));\n         }\n     }\n-    IEnumerator MoveFromTo(Transform objectToMove, Vector3 a, Vector3 b, float speed) {\n+    private IEnumerator MoveFromTo(Transform objectToMove, Vector3 a, Vector3 b, float speed) {\n          float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n          float t = 0;\n          while (t <= 1.0f) {\n              t += step; // Goes from 0 to 1, incrementing by step each time\n@@ -19,5 +20,9 @@\n              yield return new WaitForFixedUpdate();         // Leave the routine and return here in the next frame\n          }\n          objectToMove.position = b;\n     }\n+\n+    public void setTarget(Vector3 newTarget) {\n+        target = newTarget;\n+    }\n }\n"
+                },
+                {
+                    "date": 1626033639813,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,8 +21,8 @@\n          }\n          objectToMove.position = b;\n     }\n \n-    public void setTarget(Vector3 newTarget) {\n+    public void SetTarget(Vector3 newTarget) {\n         target = newTarget;\n     }\n }\n"
+                },
+                {
+                    "date": 1626033867641,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,9 @@\n     private Vector3 target;\n \n     public void Update() {\n         if (transform.position != target) {\n+            UnityEngine.Debug.Log(\"moving\");\n             StartCoroutine(MoveFromTo(transform, transform.position, target, 1f));\n         }\n     }\n     private IEnumerator MoveFromTo(Transform objectToMove, Vector3 a, Vector3 b, float speed) {\n"
+                },
+                {
+                    "date": 1626033963780,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n public class MoveController : MonoBehaviour\n {\n     private Vector3 target;\n \n-    public void Update() {\n+    public void FixedUpdate() {\n         if (transform.position != target) {\n             UnityEngine.Debug.Log(\"moving\");\n             StartCoroutine(MoveFromTo(transform, transform.position, target, 1f));\n         }\n"
+                },
+                {
+                    "date": 1626033984655,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n public class MoveController : MonoBehaviour\n {\n     private Vector3 target;\n \n-    public void FixedUpdate() {\n+    public void Update() {\n         if (transform.position != target) {\n             UnityEngine.Debug.Log(\"moving\");\n             StartCoroutine(MoveFromTo(transform, transform.position, target, 1f));\n         }\n"
+                },
+                {
+                    "date": 1626034011712,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,20 +8,20 @@\n \n     public void Update() {\n         if (transform.position != target) {\n             UnityEngine.Debug.Log(\"moving\");\n-            StartCoroutine(MoveFromTo(transform, transform.position, target, 1f));\n+            StartCoroutine(MoveFromTo(transform.position, target, 1f));\n         }\n     }\n-    private IEnumerator MoveFromTo(Transform objectToMove, Vector3 a, Vector3 b, float speed) {\n+    private IEnumerator MoveFromTo(Vector3 a, Vector3 b, float speed) {\n          float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n          float t = 0;\n          while (t <= 1.0f) {\n              t += step; // Goes from 0 to 1, incrementing by step each time\n-             objectToMove.position = Vector3.Lerp(a, b, t); // Move objectToMove closer to b\n+             transform.position = Vector3.Lerp(a, b, t); // Move objectToMove closer to b\n              yield return new WaitForFixedUpdate();         // Leave the routine and return here in the next frame\n          }\n-         objectToMove.position = b;\n+         transform.position = b;\n     }\n \n     public void SetTarget(Vector3 newTarget) {\n         target = newTarget;\n"
+                },
+                {
+                    "date": 1626034038829,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,14 +3,14 @@\n using System.Collections;\n \n public class MoveController : MonoBehaviour\n {\n-    private Vector3 target;\n+    private Vector3 targetPosition;\n \n     public void Update() {\n-        if (transform.position != target) {\n+        if (transform.position != targetPosition) {\n             UnityEngine.Debug.Log(\"moving\");\n-            StartCoroutine(MoveFromTo(transform.position, target, 1f));\n+            StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));\n         }\n     }\n     private IEnumerator MoveFromTo(Vector3 a, Vector3 b, float speed) {\n          float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n@@ -22,8 +22,8 @@\n          }\n          transform.position = b;\n     }\n \n-    public void SetTarget(Vector3 newTarget) {\n-        target = newTarget;\n+    public void SetTarget(Vector3 newTargetPosition) {\n+        targetPosition = newTargetPosition;\n     }\n }\n"
+                },
+                {
+                    "date": 1626034103280,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,8 +4,9 @@\n \n public class MoveController : MonoBehaviour\n {\n     private Vector3 targetPosition;\n+    private Action done;\n \n     public void Update() {\n         if (transform.position != targetPosition) {\n             UnityEngine.Debug.Log(\"moving\");\n@@ -22,8 +23,9 @@\n          }\n          transform.position = b;\n     }\n \n-    public void SetTarget(Vector3 newTargetPosition) {\n+    public void SetTarget(Vector3 newTargetPosition, Action done) {\n         targetPosition = newTargetPosition;\n+        onComplete = done;\n     }\n }\n"
+                },
+                {
+                    "date": 1626034243012,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,17 +1,24 @@\n using UnityEngine;\n+using System;\n using System.Timers;\n using System.Collections;\n \n public class MoveController : MonoBehaviour\n {\n     private Vector3 targetPosition;\n-    private Action done;\n+    private Action onComplete;\n+    private Boolean isMoving = false;\n \n     public void Update() {\n-        if (transform.position != targetPosition) {\n+        if (isMoving) {\n             UnityEngine.Debug.Log(\"moving\");\n             StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));\n+\n+            if (transform.position == targetPosition) {\n+                isMoving = false;\n+                onComplete();\n+            }\n         }\n     }\n     private IEnumerator MoveFromTo(Vector3 a, Vector3 b, float speed) {\n          float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n@@ -26,6 +33,7 @@\n \n     public void SetTarget(Vector3 newTargetPosition, Action done) {\n         targetPosition = newTargetPosition;\n         onComplete = done;\n+        isMoving = true;\n     }\n }\n"
+                },
+                {
+                    "date": 1626034391553,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,10 @@\n public class MoveController : MonoBehaviour\n {\n     private Vector3 targetPosition;\n     private Action onComplete;\n+    \n+    [SerializeField]\n     private Boolean isMoving = false;\n \n     public void Update() {\n         if (isMoving) {\n"
+                },
+                {
+                    "date": 1626113239108,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,8 @@\n     private Boolean isMoving = false;\n \n     public void Update() {\n         if (isMoving) {\n-            UnityEngine.Debug.Log(\"moving\");\n             StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));\n \n             if (transform.position == targetPosition) {\n                 isMoving = false;\n"
+                },
+                {
+                    "date": 1626113844899,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     public void Update() {\n         if (isMoving) {\n             StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));\n \n-            if (transform.position == targetPosition) {\n+            if (Vector3.Distance(transform.position, targetPosition) > 1f) {\n                 isMoving = false;\n                 onComplete();\n             }\n         }\n"
+                },
+                {
+                    "date": 1626113892902,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     public void Update() {\n         if (isMoving) {\n             StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));\n \n-            if (Vector3.Distance(transform.position, targetPosition) > 1f) {\n+            if (Vector3.Distance(transform.position, targetPosition) < 1f) {\n                 isMoving = false;\n                 onComplete();\n             }\n         }\n"
+                },
+                {
+                    "date": 1626114006997,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     public void Update() {\n         if (isMoving) {\n             StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));\n \n-            if (Vector3.Distance(transform.position, targetPosition) < 1f) {\n+            if (transform.position == targetPosition) {\n                 isMoving = false;\n                 onComplete();\n             }\n         }\n"
+                },
+                {
+                    "date": 1626114042811,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,10 +15,10 @@\n         if (isMoving) {\n             StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));\n \n             if (transform.position == targetPosition) {\n+                onComplete();\n                 isMoving = false;\n-                onComplete();\n             }\n         }\n     }\n     private IEnumerator MoveFromTo(Vector3 a, Vector3 b, float speed) {\n"
+                },
+                {
+                    "date": 1626114081281,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,22 +15,24 @@\n         if (isMoving) {\n             StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));\n \n             if (transform.position == targetPosition) {\n+                isMoving = false;\n                 onComplete();\n-                isMoving = false;\n             }\n         }\n     }\n     private IEnumerator MoveFromTo(Vector3 a, Vector3 b, float speed) {\n-         float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n-         float t = 0;\n-         while (t <= 1.0f) {\n-             t += step; // Goes from 0 to 1, incrementing by step each time\n-             transform.position = Vector3.Lerp(a, b, t); // Move objectToMove closer to b\n-             yield return new WaitForFixedUpdate();         // Leave the routine and return here in the next frame\n-         }\n-         transform.position = b;\n+        if (isMoving) {\n+            float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n+            float t = 0;\n+            while (t <= 1.0f) {\n+                t += step; // Goes from 0 to 1, incrementing by step each time\n+                transform.position = Vector3.Lerp(a, b, t); // Move objectToMove closer to b\n+                yield return new WaitForFixedUpdate();         // Leave the routine and return here in the next frame\n+            }\n+            transform.position = b;\n+        }\n     }\n \n     public void SetTarget(Vector3 newTargetPosition, Action done) {\n         targetPosition = newTargetPosition;\n"
+                },
+                {
+                    "date": 1626114129699,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,18 +21,17 @@\n             }\n         }\n     }\n     private IEnumerator MoveFromTo(Vector3 a, Vector3 b, float speed) {\n-        if (isMoving) {\n-            float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n-            float t = 0;\n-            while (t <= 1.0f) {\n-                t += step; // Goes from 0 to 1, incrementing by step each time\n-                transform.position = Vector3.Lerp(a, b, t); // Move objectToMove closer to b\n-                yield return new WaitForFixedUpdate();         // Leave the routine and return here in the next frame\n-            }\n-            transform.position = b;\n-        }\n+            UnityEngine.Debug.Log(\"move:\" + b)\n+         float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n+         float t = 0;\n+         while (t <= 1.0f) {\n+             t += step; // Goes from 0 to 1, incrementing by step each time\n+             transform.position = Vector3.Lerp(a, b, t); // Move objectToMove closer to b\n+             yield return new WaitForFixedUpdate();         // Leave the routine and return here in the next frame\n+         }\n+         transform.position = b;\n     }\n \n     public void SetTarget(Vector3 newTargetPosition, Action done) {\n         targetPosition = newTargetPosition;\n"
+                },
+                {
+                    "date": 1626114186529,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n             }\n         }\n     }\n     private IEnumerator MoveFromTo(Vector3 a, Vector3 b, float speed) {\n-            UnityEngine.Debug.Log(\"move:\" + b)\n+            UnityEngine.Debug.Log(\"move:\" + \"[\" + a + \"] [\" + b + \"]\");\n          float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n          float t = 0;\n          while (t <= 1.0f) {\n              t += step; // Goes from 0 to 1, incrementing by step each time\n"
+                },
+                {
+                    "date": 1626114229362,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,8 +12,9 @@\n     private Boolean isMoving = false;\n \n     public void Update() {\n         if (isMoving) {\n+            UnityEngine.Debug.Log(\"move1\");\n             StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));\n \n             if (transform.position == targetPosition) {\n                 isMoving = false;\n"
+                },
+                {
+                    "date": 1626114409991,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n          float t = 0;\n          while (t <= 1.0f) {\n              t += step; // Goes from 0 to 1, incrementing by step each time\n              transform.position = Vector3.Lerp(a, b, t); // Move objectToMove closer to b\n-             yield return new WaitForFixedUpdate();         // Leave the routine and return here in the next frame\n+             yield return null;         // Leave the routine and return here in the next frame\n          }\n          transform.position = b;\n     }\n \n"
+                },
+                {
+                    "date": 1626114558996,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n          float t = 0;\n          while (t <= 1.0f) {\n              t += step; // Goes from 0 to 1, incrementing by step each time\n              transform.position = Vector3.Lerp(a, b, t); // Move objectToMove closer to b\n-             yield return null;         // Leave the routine and return here in the next frame\n+             yield return new WaitForEndOfFrame();         // Leave the routine and return here in the next frame\n          }\n          transform.position = b;\n     }\n \n"
+                },
+                {
+                    "date": 1626114576438,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     \n     [SerializeField]\n     private Boolean isMoving = false;\n \n-    public void Update() {\n+    public void FixedUpdate() {\n         if (isMoving) {\n             UnityEngine.Debug.Log(\"move1\");\n             StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));\n \n@@ -28,9 +28,9 @@\n          float t = 0;\n          while (t <= 1.0f) {\n              t += step; // Goes from 0 to 1, incrementing by step each time\n              transform.position = Vector3.Lerp(a, b, t); // Move objectToMove closer to b\n-             yield return new WaitForEndOfFrame();         // Leave the routine and return here in the next frame\n+             yield return new WaitForFixedUpdate();         // Leave the routine and return here in the next frame\n          }\n          transform.position = b;\n     }\n \n"
+                },
+                {
+                    "date": 1626114668526,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n \n     public void FixedUpdate() {\n         if (isMoving) {\n             UnityEngine.Debug.Log(\"move1\");\n-            StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));\n+            StartCoroutine(MoveFromTo(transform.position, targetPosition, 4f));\n \n             if (transform.position == targetPosition) {\n                 isMoving = false;\n                 onComplete();\n"
+                },
+                {
+                    "date": 1626114695752,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,9 +25,9 @@\n     private IEnumerator MoveFromTo(Vector3 a, Vector3 b, float speed) {\n             UnityEngine.Debug.Log(\"move:\" + \"[\" + a + \"] [\" + b + \"]\");\n          float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n          float t = 0;\n-         while (t <= 1.0f) {\n+         while (t <= 0.1f) {\n              t += step; // Goes from 0 to 1, incrementing by step each time\n              transform.position = Vector3.Lerp(a, b, t); // Move objectToMove closer to b\n              yield return new WaitForFixedUpdate();         // Leave the routine and return here in the next frame\n          }\n"
+                },
+                {
+                    "date": 1626114725366,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     \n     [SerializeField]\n     private Boolean isMoving = false;\n \n-    public void FixedUpdate() {\n+    public void Update() {\n         if (isMoving) {\n             UnityEngine.Debug.Log(\"move1\");\n             StartCoroutine(MoveFromTo(transform.position, targetPosition, 4f));\n \n@@ -25,12 +25,12 @@\n     private IEnumerator MoveFromTo(Vector3 a, Vector3 b, float speed) {\n             UnityEngine.Debug.Log(\"move:\" + \"[\" + a + \"] [\" + b + \"]\");\n          float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n          float t = 0;\n-         while (t <= 0.1f) {\n+         while (t <= 2.0f) {\n              t += step; // Goes from 0 to 1, incrementing by step each time\n              transform.position = Vector3.Lerp(a, b, t); // Move objectToMove closer to b\n-             yield return new WaitForFixedUpdate();         // Leave the routine and return here in the next frame\n+             yield return null;         // Leave the routine and return here in the next frame\n          }\n          transform.position = b;\n     }\n \n"
+                },
+                {
+                    "date": 1626114745945,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,9 +25,9 @@\n     private IEnumerator MoveFromTo(Vector3 a, Vector3 b, float speed) {\n             UnityEngine.Debug.Log(\"move:\" + \"[\" + a + \"] [\" + b + \"]\");\n          float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n          float t = 0;\n-         while (t <= 2.0f) {\n+         while (t <= 1.0f) {\n              t += step; // Goes from 0 to 1, incrementing by step each time\n              transform.position = Vector3.Lerp(a, b, t); // Move objectToMove closer to b\n              yield return null;         // Leave the routine and return here in the next frame\n          }\n"
+                },
+                {
+                    "date": 1626123667843,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n \n     public void Update() {\n         if (isMoving) {\n             UnityEngine.Debug.Log(\"move1\");\n-            StartCoroutine(MoveFromTo(transform.position, targetPosition, 4f));\n+            StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));\n \n             if (transform.position == targetPosition) {\n                 isMoving = false;\n                 onComplete();\n"
+                },
+                {
+                    "date": 1626126166876,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,8 @@\n     private Boolean isMoving = false;\n \n     public void Update() {\n         if (isMoving) {\n-            UnityEngine.Debug.Log(\"move1\");\n             StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));\n \n             if (transform.position == targetPosition) {\n                 isMoving = false;\n"
+                },
+                {
+                    "date": 1626126173131,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,8 @@\n             }\n         }\n     }\n     private IEnumerator MoveFromTo(Vector3 a, Vector3 b, float speed) {\n-            UnityEngine.Debug.Log(\"move:\" + \"[\" + a + \"] [\" + b + \"]\");\n          float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n          float t = 0;\n          while (t <= 1.0f) {\n              t += step; // Goes from 0 to 1, incrementing by step each time\n"
+                },
+                {
+                    "date": 1626126442493,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,10 +12,12 @@\n     private Boolean isMoving = false;\n \n     public void Update() {\n         if (isMoving) {\n-            StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));\n+            Vector3 dv = (transform.position - targetPosition) / 100;\n \n+            transform.position += dv;\n+\n             if (transform.position == targetPosition) {\n                 isMoving = false;\n                 onComplete();\n             }\n"
+                },
+                {
+                    "date": 1626126534697,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,11 +12,11 @@\n     private Boolean isMoving = false;\n \n     public void Update() {\n         if (isMoving) {\n-            Vector3 dv = (transform.position - targetPosition) / 100;\n+            Vector3 dv = targetPosition - transform.position;\n \n-            transform.position += dv;\n+            transform.position += dv / 22;\n \n             if (transform.position == targetPosition) {\n                 isMoving = false;\n                 onComplete();\n"
+                },
+                {
+                    "date": 1626126594756,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n             Vector3 dv = targetPosition - transform.position;\n \n             transform.position += dv / 22;\n \n-            if (transform.position == targetPosition) {\n+            if ((transform.position, targetPosition).magnitude < 1.0f) {\n                 isMoving = false;\n                 onComplete();\n             }\n         }\n"
+                },
+                {
+                    "date": 1626126603351,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n             Vector3 dv = targetPosition - transform.position;\n \n             transform.position += dv / 22;\n \n-            if ((transform.position, targetPosition).magnitude < 1.0f) {\n+            if ((transform.position - targetPosition).magnitude < 1.0f) {\n                 isMoving = false;\n                 onComplete();\n             }\n         }\n"
+                },
+                {
+                    "date": 1626126644741,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,11 +14,11 @@\n     public void Update() {\n         if (isMoving) {\n             Vector3 dv = targetPosition - transform.position;\n \n-            transform.position += dv / 22;\n+            transform.position += dv / 50;\n \n-            if ((transform.position - targetPosition).magnitude < 1.0f) {\n+            if ((transform.position - targetPosition).magnitude < 0.1f) {\n                 isMoving = false;\n                 onComplete();\n             }\n         }\n"
+                },
+                {
+                    "date": 1626126694891,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,19 +12,18 @@\n     private Boolean isMoving = false;\n \n     public void Update() {\n         if (isMoving) {\n-            Vector3 dv = targetPosition - transform.position;\n+            StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));\n \n-            transform.position += dv / 50;\n-\n-            if ((transform.position - targetPosition).magnitude < 0.1f) {\n+            if (transform.position == targetPosition) {\n                 isMoving = false;\n                 onComplete();\n             }\n         }\n     }\n     private IEnumerator MoveFromTo(Vector3 a, Vector3 b, float speed) {\n+            UnityEngine.Debug.Log(\"move:\" + \"[\" + a + \"] [\" + b + \"]\");\n          float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n          float t = 0;\n          while (t <= 1.0f) {\n              t += step; // Goes from 0 to 1, incrementing by step each time\n"
+                },
+                {
+                    "date": 1626126708786,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,18 +12,19 @@\n     private Boolean isMoving = false;\n \n     public void Update() {\n         if (isMoving) {\n-            StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));\n+            Vector3 dv = targetPosition - transform.position;\n \n-            if (transform.position == targetPosition) {\n+            transform.position += dv / 50;\n+\n+            if ((transform.position - targetPosition).magnitude < 0.1f) {\n                 isMoving = false;\n                 onComplete();\n             }\n         }\n     }\n     private IEnumerator MoveFromTo(Vector3 a, Vector3 b, float speed) {\n-            UnityEngine.Debug.Log(\"move:\" + \"[\" + a + \"] [\" + b + \"]\");\n          float step = (speed / (a - b).magnitude) * Time.fixedDeltaTime;\n          float t = 0;\n          while (t <= 1.0f) {\n              t += step; // Goes from 0 to 1, incrementing by step each time\n"
+                },
+                {
+                    "date": 1626126917466,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,13 +12,11 @@\n     private Boolean isMoving = false;\n \n     public void Update() {\n         if (isMoving) {\n-            Vector3 dv = targetPosition - transform.position;\n+            StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));\n \n-            transform.position += dv / 50;\n-\n-            if ((transform.position - targetPosition).magnitude < 0.1f) {\n+            if (transform.position == targetPosition) {\n                 isMoving = false;\n                 onComplete();\n             }\n         }\n"
+                }
+            ],
+            "date": 1626033195810,
+            "name": "Commit-0",
+            "content": "\npublic class MoveController\n{\n    \n}\n"
+        }
+    ]
+}

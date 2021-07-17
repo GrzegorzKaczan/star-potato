@@ -13,7 +13,7 @@ public class MoveController : MonoBehaviour
 
     public void Update() {
         if (isMoving) {
-            StartCoroutine(MoveFromTo(transform.position, targetPosition, 1f));
+            StartCoroutine(MoveFromTo(transform.position, targetPosition, 3f));
 
             if (transform.position == targetPosition) {
                 isMoving = false;

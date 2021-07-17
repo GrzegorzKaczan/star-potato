@@ -1,6 +1,8 @@
 using UnityEngine;
 
-public class InputController : MonoBehaviour
+public class InputController
 {
-    
+    private void Update() {
+        Input.GetMouseButtonDown(0);
+    }
 }
